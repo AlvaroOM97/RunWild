@@ -360,12 +360,17 @@
             text-align: center;
             padding: 80px 20px 60px; /* Adjusted padding */
             background: linear-gradient(135deg, #cfe8fc 0%, #a0d9f4 100%); /* Soft blue gradient */
-            color: var(--dark-text);
+            color: var(--dark-text); /* Ensure text is readable */
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             margin-bottom: 60px;
             position: relative; /* For logo positioning */
             overflow: hidden; /* Ensure logo doesn't overflow if too large */
+        }
+        /* Make hero text more visible on image background */
+        .hero-section h1, .hero-section .tagline, .hero-section .intro-text-hero {
+            color: #2d3748; /* Darker text for contrast on lighter overlay */
+            text-shadow: 1px 1px 3px rgba(255,255,255,0.7); /* Subtle white shadow for readability */
         }
         
         .hero-logo {
@@ -379,19 +384,16 @@
             font-size: 3.5rem; /* Larger main title */
             font-weight: 800; /* Bolder */
             margin-bottom: 15px;
-            color: #2d3748;
         }
         
         .hero-section .tagline {
             font-size: 1.5rem;
             opacity: 0.9;
-            color: var(--medium-text);
             margin-bottom: 30px;
         }
 
         .hero-section .intro-text-hero {
             font-size: 1.2rem;
-            color: var(--medium-text);
             max-width: 700px;
             margin: 0 auto 40px;
         }
@@ -455,6 +457,16 @@
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
+        }
+
+        /* Images within sections */
+        .section-image {
+            display: block; /* Make it a block element */
+            max-width: 100%; /* Ensure responsiveness */
+            height: auto;
+            border-radius: 10px; /* Rounded corners for images */
+            margin: 20px auto 40px; /* Center and add vertical spacing */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Subtle shadow */
         }
         
         /* Benefits grid (now used for "Para Quién es RunWild?" section) */
@@ -916,7 +928,7 @@
             <p class="intro-text-hero">
                 Dein Laufclub in Füssen: Gemeinschaft, Natur und Bewegung für alle.
             </p>
-            <a href="#plans" class="hero-cta-button">Jetzt beitreten!</a>
+            <a href="https://wa.me/34625573575?text=Hallo%2C%20ich%20interesiere%20mich%20f%C3%BCr%20den%20einzigen%20Plan%20von%20RunWild." target="_blank" class="hero-cta-button">Jetzt beitreten!</a>
         </div>
 
         <!-- Section: Para Quién es RunWild? (Combined Benefits) -->
@@ -962,7 +974,7 @@
             </div>
             <!-- New CTA after benefits -->
             <div style="text-align: center; margin-top: 40px;">
-                <a href="#plans" class="hero-cta-button">Jetzt beitreten!</a>
+                <a href="https://wa.me/34625573575?text=Hallo%2C%20ich%20interesiere%20mich%20f%C3%BCr%20den%20einzigen%20Plan%20von%20RunWild." target="_blank" class="hero-cta-button">Jetzt beitreten!</a>
             </div>
         </div>
 
@@ -991,7 +1003,7 @@
             </div>
             <!-- New CTA after activities -->
             <div style="text-align: center; margin-top: 40px;">
-                <a href="#plans" class="hero-cta-button">Jetzt beitreten!</a>
+                <a href="https://wa.me/34625573575?text=Hallo%2C%20ich%20interesiere%20mich%20f%C3%BCr%20den%20einzigen%20Plan%20von%20RunWild." target="_blank" class="hero-cta-button">Jetzt beitreten!</a>
             </div>
         </div>
 
@@ -1038,7 +1050,7 @@
             <p class="section-text" style="margin-top: 30px;">
                 Fragen? Schreib uns eine WhatsApp!
             </p>
-            <a href="#plans" class="hero-cta-button" style="margin-top: 20px;">Jetzt beitreten!</a>
+            <a href="https://wa.me/34625573575?text=Hallo%2C%20ich%20interesiere%20mich%20f%C3%BCr%20den%20einzigen%20Plan%20von%20RunWild." target="_blank" class="hero-cta-button" style="margin-top: 20px;">Jetzt beitreten!</a>
         </div>
 
     </div>
@@ -1182,6 +1194,7 @@
     </script>
 </body>
 </html>
+
 
 
 
