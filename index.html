@@ -232,22 +232,24 @@
         }
 
         #menu-overlay .overlay-menu-list li {
-            margin-bottom: 15px; /* Adjusted space between items */
+            margin-bottom: 12px; /* Adjusted space between items */
             transform: translateY(20px); /* Initial state for animation */
             opacity: 0; /* Initial state for animation */
             transition: transform 0.4s ease-out, opacity 0.4s ease-out; /* Animation */
             position: relative; /* For custom bullet positioning */
-            padding-left: 25px; /* Space for the custom bullet */
+            padding-left: 30px; /* Increased space for the custom triangle */
         }
 
         #menu-overlay .overlay-menu-list li::before {
-            content: '•'; /* Custom bullet point */
+            content: '▸'; /* Custom right-pointing triangle */
             position: absolute;
             left: 0;
-            top: 0;
-            color: var(--primary-blue); /* Color of the bullet */
-            font-size: 1.2em; /* Size of the bullet */
+            top: 0; /* Align with the text baseline */
+            color: var(--primary-blue); /* Color of the triangle */
+            font-size: 1em; /* Size of the triangle */
             line-height: inherit; /* Align with text */
+            font-weight: 700; /* Make the triangle bold if needed */
+            margin-right: 5px; /* Space between triangle and text */
         }
 
 
@@ -275,16 +277,20 @@
             color: var(--dark-text); /* Use dark text for contrast on light background */
             text-decoration: none;
             font-family: 'Montserrat', sans-serif; /* New font for menu items */
-            font-size: 1.6rem; /* Reduced font size for menu items */
-            font-weight: 700;
-            transition: color 0.3s ease, transform 0.2s ease;
-            display: inline-block;
+            font-size: 1.5rem; /* Further reduced font size for menu items (desktop) */
+            font-weight: 600; /* Slightly less bold for finer look */
+            padding: 8px 15px; /* Padding for hover background */
+            border-radius: 10px; /* Subtle rounded corners for hover background */
+            transition: color 0.3s ease, background-color 0.3s ease, transform 0.2s ease; /* Added background-color transition */
+            display: inline-block; /* Essential for padding and background to work */
+            width: 100%; /* Ensure it takes full width for hover area */
             letter-spacing: 0.5px; /* Add a little letter spacing */
         }
 
         #menu-overlay .overlay-menu-list li a:hover {
             color: var(--primary-blue); /* Primary blue on hover for consistency */
-            transform: scale(1.05);
+            background-color: rgba(0, 123, 255, 0.1); /* Subtle blue transparent background on hover */
+            transform: none; /* Removed the scale effect for a cleaner look */
         }
         
         /* Hero section (Hero) */
@@ -379,13 +385,13 @@
         .benefit-card {
             display: flex;
             flex-direction: column; /* Icon on top, text below */
-            align-items: center; /* Center content */
+            align-items: center; /* Center content by default */
             padding: 30px;
             background: var(--light-grey); /* Slightly gray background for cards */
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            text-align: center; /* Center text within the card */
+            text-align: center; /* Center text within the card by default */
         }
         
         .benefit-card:hover {
@@ -649,11 +655,19 @@
                 right: 15px;
             }
             #menu-overlay .overlay-menu-list li {
-                margin-bottom: 12px; /* Reduce spacing slightly more for mobile */
+                margin-bottom: 10px; /* Reduce spacing slightly more for mobile */
+                padding-left: 25px; /* Adjust padding for triangle */
             }
             #menu-overlay .overlay-menu-list li a {
-                font-size: 1.2rem; /* Adjusted for mobile view */
+                font-size: 1.1rem; /* Adjusted for mobile view */
             }
+
+            /* --- Specific adjustments for cards on mobile to prevent "descolocadas" --- */
+            .benefit-card {
+                align-items: flex-start; /* Align icon and content to the left */
+                text-align: left; /* Align text within the card to the left */
+            }
+            /* --- End specific adjustments --- */
         }
 
         @media (max-width: 480px) {
@@ -888,7 +902,7 @@
         <div class="section" id="first-race">
             <h2 class="section-heading">Dein Weg zum ersten Finish!</h2>
             <p class="section-text">
-                Träumst du davon, deine erste Laufveranstaltung zu meistern? Bei RunWild unterstützen wir dich mit gezieltem Training und der richtigen Motivation. Egal ob 5k, 10k oder Marathon – wir bereiten dich optimal vor, damit du dein Ziel erreichst und stolz ins Ziel läufst!
+                Träumst du davon, deine erste Laufveranstaltung zu meistern? Bei RunWild unterstützen wir dich con gezieltem Training und der richtigen Motivation. Egal ob 5k, 10k oder Marathon – wir bereiten dich optimal vor, damit du dein Ziel erreichst und stolz ins Ziel läufst!
             </p>
             <div class="benefits-grid">
                 <div class="benefit-card">
@@ -904,7 +918,7 @@
                 <div class="benefit-card">
                     <div class="icon"><i class="fas fa-medal"></i></div>
                     <h3>Gemeinsam zum Ziel</h3>
-                    <p>Feiere deinen Erfolg mit einer unterstützenden Gruppe.</p>
+                    <p>Feiere deinen Erfolg con einer unterstützenden Gruppe.</p>
                 </div>
             </div>
         </div>
@@ -938,7 +952,7 @@
         <div class="section" id="more-than-running">
             <h2 class="section-heading">Mehr als nur Laufen – Erlebe die RunWild Community!</h2>
             <p class="section-text">
-                Du suchst nicht nur nach Laufpartnern, sondern nach einer echten Gemeinschaft? Bei RunWild verbinden wir Sport mit Geselligkeit! Neben gemeinsamen Läufen organisieren wir regelmäßige Events, bei denen der Spaß und der Austausch im Vordergrund stehen.
+                Du suchst nicht nur nach Laufpartnern, sondern nach einer echten Gemeinschaft? Bei RunWild verbinden wir Sport con Geselligkeit! Neben gemeinsamen Läufen organisieren wir regelmäßige Events, bei denen der Spaß und der Austausch im Vordergrund stehen.
             </p>
             <div class="activities-grid"> <!-- Using activities-grid for 3 columns in this case -->
                 <div class="activity-card">
@@ -963,7 +977,7 @@
         <div class="section" id="vacation">
             <h2 class="section-heading">Laufen im Allgäu – Dein perfekter Urlaubsbegleiter!</h2>
             <p class="section-text">
-                Du bist im wunderschönen Allgäu und möchtest deine Laufschuhe nicht zu Hause lassen? Schließe dich RunWild an! Entdecke die atemberaubende Natur rund um Füssen mit Gleichgesinnten. Perfekt, um im Urlaub fit zu bleiben und neue Kontakte zu knüpfen.
+                Du bist im wunderschönen Allgäu und möchtest deine Laufschuhe nicht zu Hause lassen? Schließe dich RunWild an! Entdecke die atemberaubende Natur rund um Füssen con Gleichgesinnten. Perfekt, um im Urlaub fit zu bleiben und neue Kontakte zu knüpfen.
             </p>
             <div class="benefits-grid">
                 <div class="benefit-card">
@@ -993,13 +1007,13 @@
                     <h3>🔥 Einziger Plan</h3>
                     <p class="price">€30<span>/Monat</span></p>
                     <p class="plan-description">
-                        Eine Gemeinschaft, die darauf ausgelegt ist, das Laufen zu genießen, sich Schritt für Schritt zu verbessern und den Weg mit anderen Gleichgesinnten zu teilen.
+                        Eine Gemeinschaft, die darauf ausgelegt ist, das Laufen zu genießen, sich Schritt für Schritt zu verbessern und den Weg con anderen Gleichgesinnten zu teilen.
                     </p>
                     <h4>✅ Was ist enthalten?</h4>
                     <ul>
-                        <li><i class="fas fa-check-circle"></i> WhatsApp-Gruppe mit familiärer Atmosphäre und täglicher Motivation</li>
-                        <li><i class="fas fa-check-circle"></i> Monatlicher Trainingskalender mit abwechslungsreichen Einheiten</li>
-                        <li><i class="fas fa-check-circle"></i> Monatliche Challenges mit Preisen (Startnummern, Sportausrüstung, Überraschungen)</li>
+                        <li><i class="fas fa-check-circle"></i> WhatsApp-Gruppe con familiärer Atmosphäre und täglicher Motivation</li>
+                        <li><i class="fas fa-check-circle"></i> Monatlicher Trainingskalender con abwechslungsreichen Einheiten</li>
+                        <li><i class="fas fa-check-circle"></i> Monatliche Challenges con Preisen (Startnummern, Sportausrüstung, Überraschungen)</li>
                         <li><i class="fas fa-check-circle"></i> Jährliche Planung empfohlener Rennen</li>
                         <li><i class="fas fa-check-circle"></i> 24h-Verfügbarkeit via WhatsApp für Fragen und Unterstützung</li>
                         <li><i class="fas fa-check-circle"></i> Willkommens-Club-T-Shirt</li>
@@ -1107,6 +1121,7 @@
     </script>
 </body>
 </html>
+
 
 
 
