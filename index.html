@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RunWild – Dein Laufclub in Füssen</title>
+    <!-- Enlace a la fuente Inter desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Enlace a Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base styles */
+        :root {
+            --primary-blue: #007bff;
+            --secondary-orange: #ff7f50;
+            --light-bg: #f2f7f9;
+            --dark-text: #333;
+            --medium-text: #555;
+            --light-grey: #f8f8f8;
+            --border-color: #e0e0e0;
+            --whatsapp-green: #25d366;
+            --location-red: #e53e3e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth; /* Desplazamiento suave para los enlaces del menú */
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            background: var(--light-bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 80px; /* Espacio para la nav fija */
+            overflow-x: hidden; /* Evitar el scroll horizontal */
+        }
+        
+        .container {
+            max-width: 1000px; /* Aumento de ancho máximo para un diseño más moderno */
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        /* Splash Screen */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--light-bg); /* Fondo que coincida con el body */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Asegura que esté por encima de todo */
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 1s ease-out, visibility 1s ease-out; /* Transición para ocultar */
+        }
+
+        #splash-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        #splash-logo {
+            max-width: 350px; /* Tamaño del logo en la pantalla de carga */
+            height: auto;
+            transform: scale(1); /* Estado inicial */
+            transition: transform 1.5s ease-out; /* Transición de escala */
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: #2d3748; /* Fondo oscuro para contraste */
+            padding: 15px 0;
+            width: 100%;
+            position: fixed; /* Barra de navegación fija */
+            top: 0;
+            left: 0;
+            z-index: 1000; /* Asegura que esté por encima de otros elementos */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav .nav-list {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 0 10px; /* Padding para evitar que los items toquen los bordes */
+        }
+
+        nav .nav-list li {
+            margin: 0 12px;
+        }
+
+        nav .nav-list li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            transition: color 0.3s ease, border-bottom 0.3s ease;
+            white-space: nowrap;
+            border-bottom: 2px solid transparent; /* Para el efecto de subrayado */
+        }
+
+        nav .nav-list li a:hover {
+            color: var(--secondary-orange); /* Naranja del logo al pasar el ratón */
+            border-bottom: 2px solid var(--secondary-orange);
+        }
+        
+        /* Hero section (Hero) */
+        .hero-section {
+            text-align: center;
+            padding: 80px 20px 60px; /* Padding ajustado */
+            background: linear-gradient(135deg, #cfe8fc 0%, #a0d9f4 100%); /* Degradado suave de azul */
+            color: var(--dark-text);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 60px;
+            position: relative; /* Para el posicionamiento del logo */
+            overflow: hidden; /* Asegura que el logo no se salga si es demasiado grande */
+        }
+        
+        .hero-logo {
+            max-width: 300px; /* Tamaño del logo en el hero */
+            height: auto;
+            margin-bottom: 20px;
+        }
+        
+        .hero-section h1 {
+            font-size: 3.5rem; /* Título principal más grande */
+            font-weight: 800; /* Más audaz */
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+        
+        .hero-section .tagline {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            color: var(--medium-text);
+            margin-bottom: 30px;
+        }
+
+        .hero-section .intro-text-hero {
+            font-size: 1.2rem;
+            color: var(--medium-text);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+        
+        /* General section styling */
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 50px; /* Más padding para espacio */
+            margin-bottom: 40px; /* Más espacio entre secciones */
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+        
+        .section-heading {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #2d3748;
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        .section-heading::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-blue);
+            border-radius: 2px;
+        }
+        
+        .section-text {
+            font-size: 1.1rem;
+            color: var(--medium-text);
+            margin-bottom: 40px;
+            text-align: center;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Benefits grid */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Columnas más grandes */
+            gap: 30px; /* Más espacio entre las tarjetas */
+            margin-bottom: 30px;
+        }
+        
+        .benefit-card {
+            display: flex;
+            flex-direction: column; /* Icono arriba, texto abajo */
+            align-items: center; /* Centrar contenido */
+            padding: 30px;
+            background: var(--light-grey); /* Fondo ligeramente gris para tarjetas */
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center; /* Centrar texto dentro de la tarjeta */
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .benefit-card .icon {
+            font-size: 3rem; /* Iconos más grandes */
+            margin-bottom: 15px;
+            color: var(--primary-blue); /* Azul primario para iconos */
+        }
+        
+        .benefit-card h3 {
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--dark-text);
+        }
+        
+        .benefit-card p {
+            color: var(--medium-text);
+            font-size: 1rem;
+        }
+        
+        /* Activities section */
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .activity-card {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); /* Degradado naranja/melocotón */
+            border-radius: 15px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .activity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+        
+        .activity-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* Plans section specific styling */
+        .plans-grid {
+            display: flex; /* Usar flexbox para centrar un solo elemento */
+            justify-content: center; /* Centrar el plan card */
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .plan-card {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            max-width: 450px; /* Ancho máximo para una sola tarjeta */
+            width: 100%; /* Asegura que ocupe el ancho disponible */
+        }
+
+        .plan-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .plan-card.highlight {
+            border: 3px solid var(--primary-blue);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15), 0 0 0 5px rgba(0, 123, 255, 0.2);
+        }
+
+        .plan-card h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+        }
+
+        .plan-card .price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--dark-text);
+            margin-bottom: 20px;
+        }
+
+        .plan-card .price span {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--medium-text);
+        }
+
+        .plan-card ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .plan-card ul li {
+            font-size: 1rem;
+            color: var(--medium-text);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .plan-card ul li i {
+            color: var(--whatsapp-green);
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+
+        .plan-button {
+            display: inline-block;
+            background-color: var(--secondary-orange);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .plan-button:hover {
+            background-color: #e06d3d;
+            transform: translateY(-2px);
+        }
+
+        .plan-description { /* New style for plan description */
+            font-size: 1.1rem;
+            color: var(--medium-text);
+            margin-bottom: 20px;
+        }
+        .plan-why-pay { /* New style for "Why pay?" section */
+            font-size: 0.95rem;
+            color: #777;
+            margin-top: 25px;
+            line-height: 1.5;
+            text-align: center;
+        }
+        
+        /* Contact section */
+        .contact-section {
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+            text-align: center;
+            padding: 50px;
+            border-radius: 15px;
+        }
+        
+        .contact-info-items {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .contact-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            font-weight: 600;
+            color: var(--medium-text);
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .contact-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+        }
+
+        .contact-item .icon {
+            font-size: 1.5rem;
+        }
+        
+        .whatsapp-icon {
+            color: var(--whatsapp-green);
+        }
+        
+        .location-icon {
+            color: var(--location-red);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #718096;
+            font-size: 0.9rem;
+            width: 100%;
+            max-width: 1000px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 60px;
+            }
+            nav {
+                padding: 10px 0;
+            }
+            nav .nav-list li {
+                margin: 0 8px;
+                font-size: 0.9rem;
+            }
+            .hero-section {
+                padding: 60px 15px 40px;
+                margin-bottom: 40px;
+            }
+            .hero-section h1 {
+                font-size: 2.8rem;
+            }
+            .hero-section .tagline {
+                font-size: 1.3rem;
+            }
+            .hero-section .intro-text-hero {
+                font-size: 1rem;
+            }
+            .section {
+                padding: 30px;
+                margin-bottom: 25px;
+            }
+            .section-heading {
+                font-size: 1.8rem;
+                margin-bottom: 20px;
+            }
+            .section-text {
+                font-size: 1rem;
+                margin-bottom: 30px;
+            }
+            .benefits-grid, .activities-grid, .plans-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .benefit-card, .activity-card, .plan-card {
+                padding: 20px;
+            }
+            .benefit-card .icon {
+                font-size: 2.5rem;
+            }
+            .benefit-card h3 {
+                font-size: 1.2rem;
+            }
+            .benefit-card p {
+                font-size: 0.9rem;
+            }
+            .activity-card .icon {
+                font-size: 2rem;
+            }
+            .plan-card h3 {
+                font-size: 1.5rem;
+            }
+            .plan-card .price {
+                font-size: 2rem;
+            }
+            .plan-card .price span {
+                font-size: 1rem;
+            }
+            .plan-card ul li {
+                font-size: 0.9rem;
+            }
+            .plan-button {
+                font-size: 1rem;
+                padding: 10px 20px;
+            }
+            .contact-section {
+                padding: 30px;
+            }
+            .contact-info-items {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .contact-item {
+                width: 100%;
+                justify-content: center;
+            }
+            .plan-description, .plan-why-pay {
+                font-size: 0.9rem; /* Adjust font size for mobile */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-logo {
+                max-width: 200px;
+            }
+            .hero-section h1 {
+                font-size: 2.2rem;
+            }
+            .hero-section .tagline {
+                font-size: 1.1rem;
+            }
+            nav .nav-list li {
+                margin: 0 5px;
+                font-size: 0.8rem;
+            }
+            .section-heading {
+                font-size: 1.5rem;
+            }
+            .section-text {
+                font-size: 0.9rem;
+            }
+            .benefit-card h3 {
+                font-size: 1.1rem;
+            }
+            .benefit-card p {
+                font-size: 0.85rem;
+            }
+            .contact-item span {
+                font-size: 0.9rem;
+            }
+            .contact-item .icon {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+        <img src="https://i.imgur.com/Z2uvWeN.png" alt="RunWild Logo" id="splash-logo">
+    </div>
+
+    <div class="container">
+        <!-- Navigation Bar -->
+        <nav>
+            <ul class="nav-list">
+                <li><a href="#welcome">Start</a></li>
+                <li><a href="#why-us">Warum wir?</a></li>
+                <li><a href="#no-time">Keine Zeit?</a></li>
+                <li><a href="#beginner">Anfänger?</a></li>
+                <li><a href="#community">Allein?</a></li>
+                <li><a href="#new-routes">Neue Routen?</a></li>
+                <li><a href="#first-race">Erstes Rennen?</a></li>
+                <li><a href="#ambitious">Ambitioniert?</a></li>
+                <li><a href="#more-than-running">Mehr als Laufen?</a></li>
+                <li><a href="#vacation">Urlaub im Allgäu?</a></li>
+                <li><a href="#plans">Pläne</a></li>
+                <li><a href="#contact">Kontakt</a></li>
+            </ul>
+        </nav>
+
+        <!-- Hero Section -->
+        <div class="hero-section" id="welcome">
+            <img src="https://i.imgur.com/Z2uvWeN.png" alt="RunWild Logo" class="hero-logo">
+            <h1>RunWild Füssen</h1>
+            <p class="tagline">Erlebe die Freiheit des Laufens!</p>
+            <p class="intro-text-hero">
+                Dein Laufclub in Füssen für alle, die das Laufen lieben oder es lieben lernen möchten.
+                Wir sind mehr als nur ein Club – wir sind eine Gemeinschaft, die Bewegung, Natur und Freundschaft verbindet.
+            </p>
+        </div>
+
+        <!-- Section: Warum RunWild? (General Benefits) -->
+        <div class="section" id="why-us">
+            <h2 class="section-heading">Warum ist RunWild der richtige Club für dich?</h2>
+            <p class="section-text">
+                Bei RunWild glauben wir, dass Laufen für jeden ist. Egal ob erfahren oder Neuling – hier bist du richtig! 
+                Unser Club ist so konzipiert, dass jeder Schritt ein Abenteuer und jede Session eine Gelegenheit ist, 
+                dich zu verbinden, Spaß zu haben und dich großartig zu fühlen.
+            </p>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-running"></i></div>
+                    <h3>Laufen ohne Druck</h3>
+                    <p>Vergiss den Wettkampf! Wir feiern jeden kleinen Erfolg und die Freude an der Bewegung.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-users"></i></div>
+                    <h3>Alle Leistungsstufen</h3>
+                    <p>Angepasste Strecken für Anfänger, Fortgeschrittene und Profis. Finde deine Gruppe!</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-tree"></i></div>
+                    <h3>Entdecke die Natur</h3>
+                    <p>Erkunde beim Laufen unglaubliche Landschaften und die Schönheit Füssens und Umgebung.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-handshake"></i></div>
+                    <h3>Gemeinschaft & Freundschaft</h3>
+                    <p>Laufe mit Gleichgesinnten. Neue Freunde und Motivation sind garantiert!</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-heartbeat"></i></div>
+                    <h3>Fühl dich wohl</h3>
+                    <p>Verbessere deine körperliche und mentale Gesundheit in einem positiven Umfeld.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Keine Zeit? -->
+        <div class="section" id="no-time">
+            <h2 class="section-heading">Keine Zeit zum Laufen? Wir passen uns dir an!</h2>
+            <p class="section-text">
+                Dein Terminkalender ist voll, aber du möchtest aktiv werden? Bei RunWild findest du flexible Laufgruppen, die sich deinem Alltag anpassen. Kurze, effektive Einheiten, die dich fit machen – ohne dass du dein Leben umkrempeln musst!
+            </p>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="icon"><i class="far fa-clock"></i></div>
+                    <h3>Zeitersparnis</h3>
+                    <p>Effiziente Routen, die in deinen Zeitplan passen.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-bullseye"></i></div>
+                    <h3>Klare Ziele</h3>
+                    <p>Wir helfen dir, auch mit wenig Zeit Fortschritte zu machen.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-battery-half"></i></div>
+                    <h3>Mehr Energie</h3>
+                    <p>Fühl dich nach jedem Lauf erfrischt und voller Tatendrang.</p>
+                    </div>
+                </div>
+            </div>
+
+        <!-- Section: Für Anfänger -->
+        <div class="section" id="beginner">
+            <h2 class="section-heading">Deine Laufreise beginnt hier!</h2>
+            <p class="section-text">
+                Laufen lernen ist einfach – besonders mit uns! Bei RunWild starten wir ganz entspannt. Egal, ob du nur eine Minute durchhältst oder noch gar nicht gelaufen bist, wir begleiten dich Schritt für Schritt auf deinem Weg zu mehr Ausdauer und Freude an der Bewegung.
+            </p>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-walking"></i></div>
+                    <h3>Sanfter Start</h3>
+                    <p>Geh- und Laufintervalle, die dich nicht überfordern.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>Schnelle Fortschritte</h3>
+                    <p>Du wirst staunen, wie schnell du deine Ausdauer steigerst.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-smile-beam"></i></div>
+                    <div class="benefit-content">
+                        <h3>Wohlfühlatmosphäre</h3>
+                        <p>Eine unterstützende Gruppe ohne Leistungsdruck.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Nicht gerne allein? -->
+        <div class="section" id="community">
+            <h2 class="section-heading">Nie mehr allein laufen!</h2>
+            <p class="section-text">
+                Laufen macht Spaß, aber in Gesellschaft ist es noch besser! Bei RunWild findest du eine motivierende Gemeinschaft von Laufbegeisterten. Teile deine Freude, überwinde Herausforderungen und knüpfe neue Freundschaften auf unseren gemeinsamen Routen.
+            </p>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-hand-holding-heart"></i></div>
+                    <h3>Gemeinschaft</h3>
+                    <p>Lerne neue Leute kennen, die deine Leidenschaft teilen.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-comments"></i></div>
+                    <h3>Austausch</h3>
+                    <p>Teile Erfahrungen und Tipps mit anderen Läufern.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-fire"></i></div>
+                    <h3>Motivation</h3>
+                    <p>Die Gruppe pusht dich, wenn du mal einen Durchhänger hast.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Neue Routen? -->
+        <div class="section" id="new-routes">
+            <h2 class="section-heading">Entdecke neue Horizonte beim Laufen!</h2>
+            <p class="section-text">
+                Verabschiede dich von langweiligen Routinen! Bei RunWild erkundest du mit uns die schönsten Laufstrecken in und um Füssen. Von idyllischen Waldwegen bis zu atemberaubenden Bergpanoramen – jeder Lauf ist ein neues Abenteuer.
+            </p>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-route"></i></div>
+                    <h3>Abwechslungsreiche Routen</h3>
+                    <p>Entdecke ständig neue Laufwege in und um Füssen.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-mountain"></i></div>
+                    <h3>Malerische Landschaften</h3>
+                    <p>Laufe durch Füssens schönste Natur und Alpenkulisse.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-map-marked-alt"></i></div>
+                    <h3>Geführte Touren</h3>
+                    <p>Lass dich von erfahrenen Läufern an neue Orte führen.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Erstes Rennen? -->
+        <div class="section" id="first-race">
+            <h2 class="section-heading">Dein Weg zum ersten Finish!</h2>
+            <p class="section-text">
+                Träumst du davon, deine erste Laufveranstaltung zu meistern? Bei RunWild unterstützen wir dich mit gezieltem Training und der richtigen Motivation. Egal ob 5k, 10k oder Marathon – wir bereiten dich optimal vor, damit du dein Ziel erreichst und stolz ins Ziel läufst!
+            </p>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-trophy"></i></div>
+                    <h3>Gezielte Vorbereitung</h3>
+                    <p>Trainingspläne für dein persönliches Rennen.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-brain"></i></div>
+                    <h3>Expertentipps</h3>
+                    <p>Lerne die besten Strategien für Renntag und Training.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-medal"></i></div>
+                    <h3>Gemeinsam zum Ziel</h3>
+                    <p>Feiere deinen Erfolg mit einer unterstützenden Gruppe.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Ehrgeizige Ziele? -->
+        <div class="section" id="ambitious">
+            <h2 class="section-heading">Setz dir neue Laufziele!</h2>
+            <p class="section-text">
+                Du bist bereits Läufer und suchst nach der nächsten Herausforderung? Bei RunWild findest du gleichgesinnte Athleten und professionelle Unterstützung, um deine Bestzeiten zu verbessern, längere Distanzen zu bewältigen oder dich auf Ultraläufe vorzubereiten. Deine Ambitionen sind unser Ansporn!
+            </p>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-tachometer-alt"></i></div>
+                    <h3>Leistungssteigerung</h3>
+                    <p>Verbessere deine Geschwindigkeit und Ausdauer.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-tasks"></i></div>
+                    <h3>Strukturierte Pläne</h3>
+                    <p>Erhalte Trainingstipps und -strategien für deine Ziele.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-flag-checkered"></i></div>
+                    <h3>Wettkampf-Fokus</h3>
+                    <p>Bereite dich optimal auf Marathons, Trails und mehr vor.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Mehr als Laufen? -->
+        <div class="section" id="more-than-running">
+            <h2 class="section-heading">Mehr als nur Laufen – Erlebe die RunWild Community!</h2>
+            <p class="section-text">
+                Du suchst nicht nur nach Laufpartnern, sondern nach einer echten Gemeinschaft? Bei RunWild verbinden wir Sport mit Geselligkeit! Neben gemeinsamen Läufen organisieren wir regelmäßige Events, bei denen der Spaß und der Austausch im Vordergrund stehen.
+            </p>
+            <div class="activities-grid"> <!-- Usando activities-grid para 3 columnas en este caso -->
+                <div class="activity-card">
+                    <div class="icon">🍳</div>
+                    <h3>Lauf-Frühstücke</h3>
+                    <p>Zum Auftanken und Plaudern nach dem Lauf.</p>
+                </div>
+                <div class="activity-card">
+                    <div class="icon">🏞️</div>
+                    <h3>Natur-Picknicks</h3>
+                    <p>Entspannung in der Natur nach einem schönen Lauf.</p>
+                </div>
+                <div class="activity-card">
+                    <div class="icon">🍺</div>
+                    <h3>Brauerei-Besuche</h3>
+                    <p>Feiere Erfolge bei lokalen Brauereien.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Urlaub im Allgäu? -->
+        <div class="section" id="vacation">
+            <h2 class="section-heading">Laufen im Allgäu – Dein perfekter Urlaubsbegleiter!</h2>
+            <p class="section-text">
+                Du bist im wunderschönen Allgäu und möchtest deine Laufschuhe nicht zu Hause lassen? Schließe dich RunWild an! Entdecke die atemberaubende Natur rund um Füssen mit Gleichgesinnten. Perfekt, um im Urlaub fit zu bleiben und neue Kontakte zu knüpfen.
+            </p>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-map-pin"></i></div>
+                    <h3>Malerische Routen</h3>
+                    <p>Erlebe die Schönheit der Allgäuer Alpen beim Laufen.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-calendar-alt"></i></div>
+                    <h3>Flexible Teilnahme</h3>
+                    <p>Komm einfach mit, wenn es in deinen Urlaubsplan passt.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon"><i class="fas fa-info-circle"></i></div>
+                    <h3>Lokale Tipps</h3>
+                    <p>Entdecke die besten Geheimtipps der Region.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Unsere Pläne -->
+        <div class="section" id="plans">
+            <h2 class="section-heading">Unsere Mitgliedschaften & Pläne</h2>
+            <div class="plans-grid">
+                <!-- Single Plan: Einziger Plan -->
+                <div class="plan-card highlight">
+                    <h3>🔥 Einziger Plan</h3>
+                    <p class="price">€30<span>/Monat</span></p>
+                    <p class="plan-description">
+                        Eine Gemeinschaft, die darauf ausgelegt ist, das Laufen zu genießen, sich Schritt für Schritt zu verbessern und den Weg mit anderen Gleichgesinnten zu teilen.
+                    </p>
+                    <h4>✅ Was ist enthalten?</h4>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> WhatsApp-Gruppe mit familiärer Atmosphäre und täglicher Motivation</li>
+                        <li><i class="fas fa-check-circle"></i> Monatlicher Trainingskalender mit abwechslungsreichen Einheiten</li>
+                        <li><i class="fas fa-check-circle"></i> Monatliche Challenges mit Preisen (Startnummern, Sportausrüstung, Überraschungen)</li>
+                        <li><i class="fas fa-check-circle"></i> Jährliche Planung empfohlener Rennen</li>
+                        <li><i class="fas fa-check-circle"></i> 24h-Verfügbarkeit via WhatsApp für Fragen und Unterstützung</li>
+                        <li><i class="fas fa-check-circle"></i> Willkommens-Club-T-Shirt</li>
+                    </ul>
+                    <a href="https://wa.me/34625573575?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%20einzigen%20Plan%20von%20RunWild." target="_blank" class="plan-button">Jetzt beitreten</a>
+                    <p class="plan-why-pay">
+                        🧡 Warum bezahlen? Damit der Club wachsen, Inhalte und Challenges organisieren und dich auf deinem Läuferweg begleiten kann.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="section contact-section" id="contact">
+            <h2 class="section-heading">Bereit zum Mitmachen?</h2>
+            <p class="section-text">Fragen? Schreib uns eine WhatsApp!</p>
+            <div class="contact-info-items">
+                <a href="https://wa.me/34625573575" target="_blank" class="contact-item">
+                    <div class="icon"><i class="fab fa-whatsapp whatsapp-icon"></i></div>
+                    <span>Álvaro: +34 625573575</span>
+                </a>
+                <div class="contact-item">
+                    <div class="icon"><i class="fas fa-map-marker-alt location-icon"></i></div>
+                    <span>87629, Füssen</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <footer>
+        <p>&copy; 2025 RunWild. Alle Rechte vorbehalten.</p>
+        <p>Folge uns auf Social Media! (Links bald verfügbar)</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const splashScreen = document.getElementById('splash-screen');
+            const splashLogo = document.getElementById('splash-logo');
+
+            // Optional: Make logo slightly bigger for the splash screen effect
+            splashLogo.style.transform = 'scale(1.1)';
+
+            setTimeout(() => {
+                // Fade out the splash screen
+                splashScreen.classList.add('hidden');
+                
+                // After the transition, remove it from the DOM to ensure it doesn't block interactions
+                splashScreen.addEventListener('transitionend', () => {
+                    splashScreen.remove();
+                }, { once: true }); // Use { once: true } to ensure the event listener is only called once
+            }, 1500); // Display logo for 1.5 seconds before starting fade-out
+        });
+    </script>
+</body>
+</html>
