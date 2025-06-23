@@ -20,6 +20,8 @@
             --border-color: #e0e0e0;
             --whatsapp-green: #25d366;
             --location-red: #e53e3e;
+            --nav-bg-dark: #2d3748;
+            --nav-hover-light: #fef08a; /* A light yellow/orange for hover */
         }
 
         * {
@@ -29,7 +31,7 @@
         }
 
         html {
-            scroll-behavior: smooth; /* Desplazamiento suave para los enlaces del menú */
+            scroll-behavior: smooth; /* Smooth scrolling for menu links */
         }
         
         body {
@@ -41,12 +43,12 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding-top: 80px; /* Espacio para la nav fija */
-            overflow-x: hidden; /* Evitar el scroll horizontal */
+            padding-top: 80px; /* Space for fixed nav */
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
         
         .container {
-            max-width: 1000px; /* Aumento de ancho máximo para un diseño más moderno */
+            max-width: 1000px; /* Increased max width for a more modern layout */
             margin: 0 auto;
             padding: 0 20px;
             width: 100%;
@@ -59,14 +61,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: var(--light-bg); /* Fondo que coincida con el body */
+            background-color: var(--light-bg); /* Background matching body for smooth transition */
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 9999; /* Asegura que esté por encima de todo */
+            z-index: 9999; /* Ensure it's above everything */
             opacity: 1;
             visibility: visible;
-            transition: opacity 1s ease-out, visibility 1s ease-out; /* Transición para ocultar */
+            transition: opacity 1s ease-out, visibility 1s ease-out; /* Transition to hide */
         }
 
         #splash-screen.hidden {
@@ -75,22 +77,46 @@
         }
 
         #splash-logo {
-            max-width: 350px; /* Tamaño del logo en la pantalla de carga */
+            max-width: 350px; /* Logo size on splash screen */
             height: auto;
-            transform: scale(1); /* Estado inicial */
-            transition: transform 1.5s ease-out; /* Transición de escala */
+            transform: scale(1); /* Initial state */
+            transition: transform 1.5s ease-out; /* Scale transition */
         }
 
         /* Navigation Bar */
         nav {
-            background-color: #2d3748; /* Fondo oscuro para contraste */
-            padding: 15px 0;
+            background: linear-gradient(90deg, var(--nav-bg-dark) 0%, #3e4a5b 100%); /* Subtle gradient */
+            padding: 10px 20px; /* Adjusted padding */
             width: 100%;
-            position: fixed; /* Barra de navegación fija */
+            position: fixed; /* Fixed navigation bar */
             top: 0;
             left: 0;
-            z-index: 1000; /* Asegura que esté por encima de otros elementos */
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000; /* Ensure it's above other elements */
+            box-shadow: 0 2px 15px rgba(0,0,0,0.2); /* Stronger shadow */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .nav-brand {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        nav .nav-brand .mini-logo {
+            height: 45px; /* Size of the mini logo */
+            width: auto;
+            margin-right: 15px;
+            border-radius: 50%; /* Make it round if preferred */
+            box-shadow: 0 0 8px rgba(255,255,255,0.3); /* Subtle glow */
+        }
+
+        nav .nav-brand .brand-text {
+            color: white;
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         nav .nav-list {
@@ -98,50 +124,69 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            padding: 0 10px; /* Padding para evitar que los items toquen los bordes */
+            margin: 0; /* Reset margin */
+            padding: 0; /* Reset padding */
         }
 
         nav .nav-list li {
-            margin: 0 12px;
+            margin: 0 8px; /* Slightly reduced margin to accommodate longer text */
         }
 
         nav .nav-list li a {
             color: white;
             text-decoration: none;
             font-weight: 500;
-            padding: 8px 0;
-            transition: color 0.3s ease, border-bottom 0.3s ease;
+            padding: 10px 0; /* Increased padding for better touch target */
+            position: relative;
             white-space: nowrap;
-            border-bottom: 2px solid transparent; /* Para el efecto de subrayado */
+            transition: color 0.3s ease, transform 0.2s ease;
+            font-size: 0.9rem; /* Adjusted font size for compactness with longer text */
+        }
+
+        nav .nav-list li a::after { /* Underline effect */
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%) scaleX(0);
+            width: 100%;
+            height: 3px;
+            background-color: var(--nav-hover-light);
+            border-radius: 2px;
+            transition: transform 0.3s ease;
         }
 
         nav .nav-list li a:hover {
-            color: var(--secondary-orange); /* Naranja del logo al pasar el ratón */
-            border-bottom: 2px solid var(--secondary-orange);
+            color: var(--nav-hover-light); /* Lighter color on hover */
+            transform: translateY(-2px); /* Subtle lift effect */
+        }
+
+        nav .nav-list li a:hover::after {
+            transform: translateX(-50%) scaleX(1);
         }
         
         /* Hero section (Hero) */
         .hero-section {
             text-align: center;
-            padding: 80px 20px 60px; /* Padding ajustado */
-            background: linear-gradient(135deg, #cfe8fc 0%, #a0d9f4 100%); /* Degradado suave de azul */
+            padding: 80px 20px 60px; /* Adjusted padding */
+            background: linear-gradient(135deg, #cfe8fc 0%, #a0d9f4 100%); /* Soft blue gradient */
             color: var(--dark-text);
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             margin-bottom: 60px;
-            position: relative; /* Para el posicionamiento del logo */
-            overflow: hidden; /* Asegura que el logo no se salga si es demasiado grande */
+            position: relative; /* For logo positioning */
+            overflow: hidden; /* Ensure logo doesn't overflow if too large */
         }
         
         .hero-logo {
-            max-width: 300px; /* Tamaño del logo en el hero */
+            max-width: 300px; /* Logo size in hero */
             height: auto;
             margin-bottom: 20px;
         }
         
         .hero-section h1 {
-            font-size: 3.5rem; /* Título principal más grande */
-            font-weight: 800; /* Más audaz */
+            font-size: 3.5rem; /* Larger main title */
+            font-weight: 800; /* Bolder */
             margin-bottom: 15px;
             color: #2d3748;
         }
@@ -164,8 +209,8 @@
         .section {
             background: white;
             border-radius: 15px;
-            padding: 50px; /* Más padding para espacio */
-            margin-bottom: 40px; /* Más espacio entre secciones */
+            padding: 50px; /* More padding for space */
+            margin-bottom: 40px; /* More space between sections */
             box-shadow: 0 5px 20px rgba(0,0,0,0.08);
         }
         
@@ -203,21 +248,21 @@
         /* Benefits grid */
         .benefits-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Columnas más grandes */
-            gap: 30px; /* Más espacio entre las tarjetas */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Larger columns */
+            gap: 30px; /* More space between cards */
             margin-bottom: 30px;
         }
         
         .benefit-card {
             display: flex;
-            flex-direction: column; /* Icono arriba, texto abajo */
-            align-items: center; /* Centrar contenido */
+            flex-direction: column; /* Icon on top, text below */
+            align-items: center; /* Center content */
             padding: 30px;
-            background: var(--light-grey); /* Fondo ligeramente gris para tarjetas */
+            background: var(--light-grey); /* Slightly gray background for cards */
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            text-align: center; /* Centrar texto dentro de la tarjeta */
+            text-align: center; /* Center text within the card */
         }
         
         .benefit-card:hover {
@@ -226,9 +271,9 @@
         }
         
         .benefit-card .icon {
-            font-size: 3rem; /* Iconos más grandes */
+            font-size: 3rem; /* Larger icons */
             margin-bottom: 15px;
-            color: var(--primary-blue); /* Azul primario para iconos */
+            color: var(--primary-blue); /* Primary blue for icons */
         }
         
         .benefit-card h3 {
@@ -254,7 +299,7 @@
         .activity-card {
             text-align: center;
             padding: 30px 20px;
-            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); /* Degradado naranja/melocotón */
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); /* Orange/peach gradient */
             border-radius: 15px;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             box-shadow: 0 3px 10px rgba(0,0,0,0.05);
@@ -272,8 +317,8 @@
 
         /* Plans section specific styling */
         .plans-grid {
-            display: flex; /* Usar flexbox para centrar un solo elemento */
-            justify-content: center; /* Centrar el plan card */
+            display: flex; /* Use flexbox to center a single element */
+            justify-content: center; /* Center the plan card */
             gap: 30px;
             margin-bottom: 30px;
         }
@@ -288,8 +333,8 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            max-width: 450px; /* Ancho máximo para una sola tarjeta */
-            width: 100%; /* Asegura que ocupe el ancho disponible */
+            max-width: 450px; /* Max width for a single card */
+            width: 100%; /* Ensure it takes available width */
         }
 
         .plan-card:hover {
@@ -360,12 +405,12 @@
             transform: translateY(-2px);
         }
 
-        .plan-description { /* New style for plan description */
+        .plan-description { /* Style for plan description */
             font-size: 1.1rem;
             color: var(--medium-text);
             margin-bottom: 20px;
         }
-        .plan-why-pay { /* New style for "Why pay?" section */
+        .plan-why-pay { /* Style for "Why pay?" section */
             font-size: 0.95rem;
             color: #777;
             margin-top: 25px;
@@ -437,11 +482,24 @@
                 padding-top: 60px;
             }
             nav {
-                padding: 10px 0;
+                flex-direction: column; /* Stack logo and menu on small screens */
+                padding: 10px;
+                align-items: flex-start;
+            }
+            nav .nav-list {
+                justify-content: flex-start; /* Align menu items to start */
+                margin-top: 10px;
             }
             nav .nav-list li {
-                margin: 0 8px;
-                font-size: 0.9rem;
+                margin: 0 6px 5px 0; /* Adjust spacing */
+                font-size: 0.8rem; /* Further reduced font size for mobile */
+            }
+            nav .nav-brand .mini-logo {
+                height: 40px;
+                margin-right: 10px;
+            }
+            nav .nav-brand .brand-text {
+                font-size: 1.4rem;
             }
             .hero-section {
                 padding: 60px 15px 40px;
@@ -530,8 +588,9 @@
                 font-size: 1.1rem;
             }
             nav .nav-list li {
-                margin: 0 5px;
-                font-size: 0.8rem;
+                margin: 0 3px;
+                font-size: 0.7rem;
+                padding: 8px 0; /* Adjusted padding for very small screens */
             }
             .section-heading {
                 font-size: 1.5rem;
@@ -563,18 +622,22 @@
     <div class="container">
         <!-- Navigation Bar -->
         <nav>
+            <a href="#welcome" class="nav-brand">
+                <img src="https://i.imgur.com/Z2uvWeN.png" alt="RunWild Mini Logo" class="mini-logo">
+                <span class="brand-text">RunWild</span>
+            </a>
             <ul class="nav-list">
-                <li><a href="#welcome">Start</a></li>
-                <li><a href="#why-us">Warum wir?</a></li>
+                <li><a href="#welcome">Startseite</a></li>
+                <li><a href="#why-us">Unsere Vorteile</a></li>
                 <li><a href="#no-time">Keine Zeit?</a></li>
-                <li><a href="#beginner">Anfänger?</a></li>
-                <li><a href="#community">Allein?</a></li>
+                <li><a href="#beginner">Für Anfänger</a></li>
+                <li><a href="#community">Nicht gern allein?</a></li>
                 <li><a href="#new-routes">Neue Routen?</a></li>
                 <li><a href="#first-race">Erstes Rennen?</a></li>
-                <li><a href="#ambitious">Ambitioniert?</a></li>
+                <li><a href="#ambitious">Ehrgeizige Ziele?</a></li>
                 <li><a href="#more-than-running">Mehr als Laufen?</a></li>
                 <li><a href="#vacation">Urlaub im Allgäu?</a></li>
-                <li><a href="#plans">Pläne</a></li>
+                <li><a href="#plans">Unsere Pläne</a></li>
                 <li><a href="#contact">Kontakt</a></li>
             </ul>
         </nav>
@@ -790,7 +853,7 @@
             <p class="section-text">
                 Du suchst nicht nur nach Laufpartnern, sondern nach einer echten Gemeinschaft? Bei RunWild verbinden wir Sport mit Geselligkeit! Neben gemeinsamen Läufen organisieren wir regelmäßige Events, bei denen der Spaß und der Austausch im Vordergrund stehen.
             </p>
-            <div class="activities-grid"> <!-- Usando activities-grid para 3 columnas en este caso -->
+            <div class="activities-grid"> <!-- Using activities-grid for 3 columns in this case -->
                 <div class="activity-card">
                     <div class="icon">🍳</div>
                     <h3>Lauf-Frühstücke</h3>
@@ -905,3 +968,4 @@
     </script>
 </body>
 </html>
+
