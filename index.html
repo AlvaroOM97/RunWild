@@ -236,43 +236,17 @@
             transform: translateY(20px); /* Initial state for animation */
             opacity: 0; /* Initial state for animation */
             transition: transform 0.4s ease-out, opacity 0.4s ease-out; /* Animation */
-            position: relative; /* For custom bullet positioning */
-            padding-left: 30px; /* Increased space for the custom triangle */
+            position: relative; /* For custom arrow positioning */
+            padding-left: 0; /* Reset padding-left as we're adding arrow with ::after */
         }
 
-        #menu-overlay .overlay-menu-list li::before {
-            content: '▸'; /* Custom right-pointing triangle */
-            position: absolute;
-            left: 0;
-            top: 0; /* Align with the text baseline */
-            color: var(--primary-blue); /* Color of the triangle */
-            font-size: 1em; /* Size of the triangle */
-            line-height: inherit; /* Align with text */
-            font-weight: 700; /* Make the triangle bold if needed */
-            margin-right: 5px; /* Space between triangle and text */
-        }
-
-
+        /* Ensure menu items are visible when overlay is active */
         #menu-overlay.active .overlay-menu-list li {
             transform: translateY(0); /* Final state for animation */
             opacity: 1;
         }
 
-        /* Delay for sequential animation */
-        #menu-overlay.active .overlay-menu-list li:nth-child(1) { transition-delay: 0.1s; }
-        #menu-overlay.active .overlay-menu-list li:nth-child(2) { transition-delay: 0.15s; }
-        #menu-overlay.active .overlay-menu-list li:nth-child(3) { transition-delay: 0.2s; }
-        #menu-overlay.active .overlay-menu-list li:nth-child(4) { transition-delay: 0.25s; }
-        #menu-overlay.active .overlay-menu-list li:nth-child(5) { transition-delay: 0.3s; }
-        #menu-overlay.active .overlay-menu-list li:nth-child(6) { transition-delay: 0.35s; }
-        #menu-overlay.active .overlay-menu-list li:nth-child(7) { transition-delay: 0.4s; }
-        #menu-overlay.active .overlay-menu-list li:nth-child(8) { transition-delay: 0.45s; }
-        #menu-overlay.active .overlay-menu-list li:nth-child(9) { transition-delay: 0.5s; }
-        #menu-overlay.active .overlay-menu-list li:nth-child(10) { transition-delay: 0.55s; }
-        #menu-overlay.active .overlay-menu-list li:nth-child(11) { transition-delay: 0.6s; }
-        #menu-overlay.active .overlay-menu-list li:nth-child(12) { transition-delay: 0.65s; }
-
-
+        /* Common style for main menu items and sub-menu items */
         #menu-overlay .overlay-menu-list li a {
             color: var(--dark-text); /* Use dark text for contrast on light background */
             text-decoration: none;
@@ -281,18 +255,106 @@
             font-weight: 600; /* Slightly less bold for finer look */
             padding: 8px 15px; /* Padding for hover background */
             border-radius: 10px; /* Subtle rounded corners for hover background */
-            transition: color 0.3s ease, background-color 0.3s ease, transform 0.2s ease; /* Added background-color transition */
+            transition: color 0.3s ease, background-color 0.3s ease; /* Added background-color transition */
             display: inline-block; /* Essential for padding and background to work */
             width: 100%; /* Ensure it takes full width for hover area */
             letter-spacing: 0.5px; /* Add a little letter spacing */
+            position: relative; /* For the arrow ::after */
+            padding-right: 30px; /* Space for the arrow */
+        }
+
+        #menu-overlay .overlay-menu-list li a:not(.has-submenu)::after {
+            content: '>'; /* Right-pointing arrow for non-submenu items */
+            position: absolute;
+            right: 15px; /* Position the arrow to the right */
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-blue); /* Color of the arrow */
+            font-size: 0.8em; /* Size of the arrow relative to font-size */
+            font-weight: 700;
         }
 
         #menu-overlay .overlay-menu-list li a:hover {
             color: var(--primary-blue); /* Primary blue on hover for consistency */
             background-color: rgba(0, 123, 255, 0.1); /* Subtle blue transparent background on hover */
-            transform: none; /* Removed the scale effect for a cleaner look */
         }
         
+        /* Delays for main menu item animation */
+        #menu-overlay.active .overlay-menu-list > li:nth-child(1) { transition-delay: 0.1s; }
+        #menu-overlay.active .overlay-menu-list > li:nth-child(2) { transition-delay: 0.15s; }
+        #menu-overlay.active .overlay-menu-list > li:nth-child(3) { transition-delay: 0.2s; }
+        #menu-overlay.active .overlay-menu-list > li:nth-child(4) { transition-delay: 0.25s; }
+
+        /* Submenu specific styles (Desktop - Hover) */
+        #menu-overlay .submenu {
+            list-style: none;
+            padding: 0;
+            margin-top: 10px; /* Space between parent and submenu */
+            padding-left: 20px; /* Indent submenu items */
+            position: absolute; /* Position relative to parent li for 'fan-out' */
+            left: 100%; /* Start to the right of the parent item */
+            top: 0;
+            width: 250px; /* Fixed width for submenu */
+            background: linear-gradient(135deg, #f0f8ff 0%, #e8f5ff 100%); /* Lighter background for submenu */
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none; /* Disable interaction when hidden */
+            transition: opacity 0.3s ease, transform 0.3s ease; /* Transition for fade/slide */
+            transform: translateX(-10px); /* Initial slide effect */
+            z-index: 2001; /* Above main overlay but below close button */
+        }
+        
+        #menu-overlay .overlay-menu-list li.has-submenu:hover .submenu {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto; /* Enable interaction when visible */
+            transform: translateX(0); /* Final slide effect */
+        }
+
+        #menu-overlay .overlay-menu-list li.has-submenu > a::after {
+            content: '▼'; /* Down arrow for submenu parent */
+            font-size: 0.6em; /* Smaller arrow */
+            transform: translateY(-50%) rotate(0deg);
+            transition: transform 0.3s ease;
+        }
+
+        #menu-overlay .overlay-menu-list li.has-submenu:hover > a::after {
+            transform: translateY(-50%) rotate(180deg); /* Rotate arrow on hover */
+        }
+
+        #menu-overlay .submenu li {
+            margin-bottom: 5px; /* Smaller margin for submenu items */
+            padding-left: 0; /* Remove parent padding */
+            transform: translateY(10px); /* Initial state for sub-item animation */
+            opacity: 0;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        }
+
+        /* Sequential animation for submenu items */
+        #menu-overlay .overlay-menu-list li.has-submenu:hover .submenu li:nth-child(1) { transition-delay: 0.05s; transform: translateY(0); opacity: 1; }
+        #menu-overlay .overlay-menu-list li.has-submenu:hover .submenu li:nth-child(2) { transition-delay: 0.1s; transform: translateY(0); opacity: 1; }
+        #menu-overlay .overlay-menu-list li.has-submenu:hover .submenu li:nth-child(3) { transition-delay: 0.15s; transform: translateY(0); opacity: 1; }
+        #menu-overlay .overlay-menu-list li.has-submenu:hover .submenu li:nth-child(4) { transition-delay: 0.2s; transform: translateY(0); opacity: 1; }
+        #menu-overlay .overlay-menu-list li.has-submenu:hover .submenu li:nth-child(5) { transition-delay: 0.25s; transform: translateY(0); opacity: 1; }
+        #menu-overlay .overlay-menu-list li.has-submenu:hover .submenu li:nth-child(6) { transition-delay: 0.3s; transform: translateY(0); opacity: 1; }
+
+
+        #menu-overlay .submenu li a {
+            font-size: 1.2rem; /* Smaller font size for submenu items */
+            font-weight: 500; /* Less bold */
+            padding: 6px 12px; /* Smaller padding */
+            padding-right: 25px; /* Space for arrow */
+        }
+        #menu-overlay .submenu li a::after {
+            content: '>'; /* Arrow for submenu items */
+            font-size: 0.8em;
+        }
+        #menu-overlay .submenu li a:hover {
+            background-color: rgba(0, 123, 255, 0.08); /* Lighter hover for submenu */
+        }
+
         /* Hero section (Hero) */
         .hero-section {
             text-align: center;
@@ -332,6 +394,27 @@
             color: var(--medium-text);
             max-width: 700px;
             margin: 0 auto 40px;
+        }
+
+        /* Call to Action Button in Hero */
+        .hero-cta-button {
+            display: inline-block;
+            background-color: var(--secondary-orange);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255,127,80,0.3); /* Shadow for prominent button */
+            margin-top: 30px; /* Added margin for spacing */
+        }
+
+        .hero-cta-button:hover {
+            background-color: #e06d3d;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255,127,80,0.4);
         }
         
         /* General section styling */
@@ -374,24 +457,24 @@
             margin-right: auto;
         }
         
-        /* Benefits grid */
+        /* Benefits grid (now used for "Para Quién es RunWild?" section) */
         .benefits-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Larger columns */
-            gap: 30px; /* More space between cards */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Slightly smaller min-width for more compact layout */
+            gap: 25px; /* Reduced gap */
             margin-bottom: 30px;
         }
         
         .benefit-card {
             display: flex;
             flex-direction: column; /* Icon on top, text below */
-            align-items: center; /* Center content by default */
-            padding: 30px;
+            align-items: flex-start; /* Align icon and text to the left */
+            padding: 25px; /* Reduced padding */
             background: var(--light-grey); /* Slightly gray background for cards */
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            text-align: center; /* Center text within the card by default */
+            text-align: left; /* Align text within the card to the left */
         }
         
         .benefit-card:hover {
@@ -400,34 +483,35 @@
         }
         
         .benefit-card .icon {
-            font-size: 3rem; /* Larger icons */
-            margin-bottom: 15px;
+            font-size: 2.5rem; /* Slightly smaller icons */
+            margin-bottom: 12px; /* Reduced margin */
             color: var(--primary-blue); /* Primary blue for icons */
         }
         
         .benefit-card h3 {
             font-weight: 700;
-            font-size: 1.3rem;
-            margin-bottom: 10px;
+            font-size: 1.2rem; /* Slightly smaller heading */
+            margin-bottom: 8px; /* Reduced margin */
             color: var(--dark-text);
         }
         
         .benefit-card p {
             color: var(--medium-text);
-            font-size: 1rem;
+            font-size: 0.95rem; /* Slightly smaller paragraph */
+            line-height: 1.5; /* Good readability */
         }
         
-        /* Activities section */
+        /* Activities section (now "Mehr als nur Laufen") - RESTORED PREVIOUS STYLES */
         .activities-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Reverted to original min-width */
+            gap: 25px; /* Reverted to original gap */
             margin-top: 30px;
         }
         
         .activity-card {
             text-align: center;
-            padding: 30px 20px;
+            padding: 30px 20px; /* Reverted to original padding */
             background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); /* Orange/peach gradient */
             border-radius: 15px;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -439,9 +523,21 @@
             box-shadow: 0 6px 15px rgba(0,0,0,0.1);
         }
         
-        .activity-card .icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
+        .activity-card .icon { /* This was .activity-icon in the very first version, now it's .icon inside .activity-card */
+            font-size: 2.5rem; /* Reverted to original icon size */
+            margin-bottom: 15px; /* Reverted to original margin */
+        }
+        /* Added h3 for activity title */
+        .activity-card h3 {
+            font-size: 1.3rem; /* Adjusted for activity title */
+            font-weight: 700;
+            color: var(--dark-text);
+            margin-bottom: 8px;
+        }
+
+        .activity-card p {
+            font-size: 1rem; /* Reverted to original font size (or default for readability) */
+            color: var(--medium-text);
         }
 
         /* Plans section specific styling */
@@ -656,18 +752,86 @@
             }
             #menu-overlay .overlay-menu-list li {
                 margin-bottom: 10px; /* Reduce spacing slightly more for mobile */
-                padding-left: 25px; /* Adjust padding for triangle */
+                padding-left: 0; /* No extra padding-left needed on mobile as sub-menu opens below */
             }
             #menu-overlay .overlay-menu-list li a {
                 font-size: 1.1rem; /* Adjusted for mobile view */
+                padding-right: 20px; /* Adjust space for arrow */
             }
+
+            /* For submenu on mobile, make it appear below the parent and full width */
+            #menu-overlay .submenu {
+                position: static; /* Stack naturally */
+                width: 100%; /* Full width */
+                margin-left: 0;
+                top: auto;
+                left: auto;
+                transform: none; /* Remove transform */
+                box-shadow: none; /* No shadow */
+                background: none; /* No background */
+                padding: 0; /* No padding */
+                margin-top: 0;
+                
+                /* Control visibility of the entire submenu for mobile using max-height */
+                max-height: 0; /* Start hidden */
+                overflow: hidden; /* Hide overflowing content */
+                opacity: 0; /* Ensure it fades in */
+                visibility: hidden;
+                transition: max-height 0.3s ease-out, opacity 0.3s ease-out, visibility 0.3s ease-out;
+            }
+
+            #menu-overlay .overlay-menu-list li.has-submenu.active-submenu .submenu {
+                max-height: 300px; /* Or a value large enough to contain content */
+                opacity: 1;
+                visibility: visible;
+            }
+
+            #menu-overlay .submenu li {
+                padding-left: 20px; /* Indent sub-menu items on mobile */
+                margin-bottom: 5px; /* Smaller margin */
+                opacity: 1; /* Always visible when parent submenu is active */
+                transform: none; /* No individual item animation on mobile submenu */
+                transition: none; /* No individual item animation on mobile submenu */
+            }
+
+            /* Adjust arrow for submenu parent on mobile: still a down arrow, but might not rotate */
+            #menu-overlay .overlay-menu-list li.has-submenu > a::after {
+                transform: translateY(-50%) rotate(0deg); /* Keep it as down arrow, no rotation for simple click */
+            }
+            /* The submenu on mobile will toggle on click/tap, not just hover */
 
             /* --- Specific adjustments for cards on mobile to prevent "descolocadas" --- */
             .benefit-card {
                 align-items: flex-start; /* Align icon and content to the left */
                 text-align: left; /* Align text within the card to the left */
+                padding: 20px; /* Adjust padding for smaller screens */
             }
-            /* --- End specific adjustments --- */
+            .benefit-card .icon {
+                font-size: 2.2rem;
+                margin-bottom: 10px;
+            }
+            .benefit-card h3 {
+                font-size: 1.1rem;
+                margin-bottom: 5px;
+            }
+            .benefit-card p {
+                font-size: 0.9rem;
+            }
+
+            /* Activities grid for mobile (reverted to original size rules) */
+            .activities-grid {
+                grid-template-columns: 1fr; /* Single column on small mobiles */
+            }
+            .activity-card {
+                padding: 25px 20px; /* Reverted to original padding */
+            }
+            .activity-card .icon {
+                font-size: 2.2rem; /* Reverted to original (or close to original) */
+                margin-bottom: 12px;
+            }
+            .activity-card p {
+                font-size: 0.9rem; /* Reverted to original (or close to original) */
+            }
         }
 
         @media (max-width: 480px) {
@@ -680,10 +844,9 @@
             .hero-section .tagline {
                 font-size: 1.1rem;
             }
-            nav .nav-list li {
-                margin: 0 3px;
-                font-size: 0.7rem;
-                padding: 8px 0; /* Adjusted padding for very small screens */
+            .hero-cta-button {
+                padding: 12px 25px;
+                font-size: 1rem;
             }
             .section-heading {
                 font-size: 1.5rem;
@@ -692,10 +855,10 @@
                 font-size: 0.9rem;
             }
             .benefit-card h3 {
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
             .benefit-card p {
-                font-size: 0.85rem;
+                font-size: 0.8rem;
             }
             .contact-item span {
                 font-size: 0.9rem;
@@ -716,18 +879,20 @@
     <div id="menu-overlay">
         <button class="close-button" id="close-menu"><i class="fas fa-times"></i></button>
         <ul class="overlay-menu-list">
-            <li><a href="#welcome" data-section="welcome">Startseite</a></li>
-            <li><a href="#why-us" data-section="why-us">Unsere Vorteile</a></li>
-            <li><a href="#no-time" data-section="no-time">Keine Zeit?</a></li>
-            <li><a href="#beginner" data-section="beginner">Für Anfänger</a></li>
-            <li><a href="#community" data-section="community">Nicht gern allein?</a></li>
-            <li><a href="#new-routes" data-section="new-routes">Neue Routen?</a></li>
-            <li><a href="#first-race" data-section="first-race">Erstes Rennen?</a></li>
-            <li><a href="#ambitious" data-section="ambitious">Ehrgeizige Ziele?</a></li>
-            <li><a href="#more-than-running" data-section="more-than-running">Mehr als Laufen?</a></li>
-            <li><a href="#vacation" data-section="vacation">Urlaub im Allgäu?</a></li>
-            <li><a href="#plans" data-section="plans">Unsere Pläne</a></li>
-            <li><a href="#contact" data-section="contact">Kontakt</a></li>
+            <li><a href="#welcome" data-section="welcome" class="nav-link">Startseite</a></li>
+            <li class="has-submenu">
+                <a href="#" data-section="for-whom" class="nav-link">Für wen ist RunWild?</a>
+                <ul class="submenu">
+                    <li><a href="#for-whom" data-target-id="Anfanger" class="submenu-link">Anfänger</a></li>
+                    <li><a href="#for-whom" data-target-id="WenigZeit" class="submenu-link">Wenig Zeit</a></li>
+                    <li><a href="#for-whom" data-target-id="Gesellschaft" class="submenu-link">Gesellschaft</a></li>
+                    <li><a href="#for-whom" data-target-id="NeueWege" class="submenu-link">Neue Wege</a></li>
+                    <li><a href="#for-whom" data-target-id="Rennen" class="submenu-link">Rennen</a></li>
+                    <li><a href="#for-whom" data-target-id="Urlaub" class="submenu-link">Urlaub</a></li>
+                </ul>
+            </li>
+            <li><a href="#plans" data-section="plans" class="nav-link">Unsere Pläne</a></li>
+            <li><a href="#contact" data-section="contact" class="nav-link">Kontakt</a></li>
         </ul>
     </div>
 
@@ -749,252 +914,84 @@
             <h1>RunWild Füssen</h1>
             <p class="tagline">Erlebe die Freiheit des Laufens!</p>
             <p class="intro-text-hero">
-                Dein Laufclub in Füssen für alle, die das Laufen lieben oder es lieben lernen möchten.
-                Wir sind mehr als nur ein Club – wir sind eine Gemeinschaft, die Bewegung, Natur und Freundschaft verbindet.
+                Dein Laufclub in Füssen: Gemeinschaft, Natur und Bewegung für alle.
             </p>
+            <a href="#plans" class="hero-cta-button">Jetzt beitreten!</a>
         </div>
 
-        <!-- Section: Warum RunWild? (General Benefits) -->
-        <div class="section" id="why-us">
-            <h2 class="section-heading">Warum ist RunWild der richtige Club für dich?</h2>
-            <p class="section-text">
-                Bei RunWild glauben wir, dass Laufen für jeden ist. Egal ob erfahren oder Neuling – hier bist du richtig! 
-                Unser Club ist so konzipiert, dass jeder Schritt ein Abenteuer und jede Session eine Gelegenheit ist, 
-                dich zu verbinden, Spaß zu haben und dich großartig zu fühlen.
-            </p>
+        <!-- Section: Para Quién es RunWild? (Combined Benefits) -->
+        <div class="section" id="for-whom">
+            <h2 class="section-heading">RunWild ist für dich, wenn du...</h2>
             
             <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="icon"><i class="fas fa-running"></i></div>
-                    <h3>Laufen ohne Druck</h3>
-                    <p>Vergiss den Wettkampf! Wir feiern jeden kleinen Erfolg und die Freude an der Bewegung.</p>
+                <div class="benefit-card" id="Anfanger">
+                    <div class="icon"><i class="fas fa-shoe-prints"></i></div>
+                    <h3>Anfänger bist</h3>
+                    <p>Lerne entspannt mit uns laufen, Schritt für Schritt.</p>
                 </div>
                 
-                <div class="benefit-card">
+                <div class="benefit-card" id="WenigZeit">
+                    <div class="icon"><i class="fas fa-clock"></i></div>
+                    <h3>Wenig Zeit hast</h3>
+                    <p>Finde flexible Laufgruppen, die in deinen Alltag passen.</p>
+                </div>
+                
+                <div class="benefit-card" id="Gesellschaft">
                     <div class="icon"><i class="fas fa-users"></i></div>
-                    <h3>Alle Leistungsstufen</h3>
-                    <p>Angepasste Strecken für Anfänger, Fortgeschrittene und Profis. Finde deine Gruppe!</p>
+                    <h3>Gesellschaft suchst</h3>
+                    <p>Laufe mit Gleichgesinnten & knüpfe neue Freundschaften.</p>
                 </div>
                 
-                <div class="benefit-card">
-                    <div class="icon"><i class="fas fa-tree"></i></div>
-                    <h3>Entdecke die Natur</h3>
-                    <p>Erkunde beim Laufen unglaubliche Landschaften und die Schönheit Füssens und Umgebung.</p>
-                </div>
-                
-                <div class="benefit-card">
-                    <div class="icon"><i class="fas fa-handshake"></i></div>
-                    <h3>Gemeinschaft & Freundschaft</h3>
-                    <p>Laufe mit Gleichgesinnten. Neue Freunde und Motivation sind garantiert!</p>
-                </div>
-
-                <div class="benefit-card">
-                    <div class="icon"><i class="fas fa-heartbeat"></i></div>
-                    <h3>Fühl dich wohl</h3>
-                    <p>Verbessere deine körperliche und mentale Gesundheit in einem positiven Umfeld.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section: Keine Zeit? -->
-        <div class="section" id="no-time">
-            <h2 class="section-heading">Keine Zeit zum Laufen? Wir passen uns dir an!</h2>
-            <p class="section-text">
-                Dein Terminkalender ist voll, aber du möchtest aktiv werden? Bei RunWild findest du flexible Laufgruppen, die sich deinem Alltag anpassen. Kurze, effektive Einheiten, die dich fit machen – ohne dass du dein Leben umkrempeln musst!
-            </p>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="icon"><i class="far fa-clock"></i></div>
-                    <h3>Zeitersparnis</h3>
-                    <p>Effiziente Routen, die in deinen Zeitplan passen.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="icon"><i class="fas fa-bullseye"></i></div>
-                    <h3>Klare Ziele</h3>
-                    <p>Wir helfen dir, auch mit wenig Zeit Fortschritte zu machen.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="icon"><i class="fas fa-battery-half"></i></div>
-                    <h3>Mehr Energie</h3>
-                    <p>Fühl dich nach jedem Lauf erfrischt und voller Tatendrang.</p>
-                    </div>
-                </div>
-            </div>
-
-        <!-- Section: Für Anfänger -->
-        <div class="section" id="beginner">
-            <h2 class="section-heading">Deine Laufreise beginnt hier!</h2>
-            <p class="section-text">
-                Laufen lernen ist einfach – besonders mit uns! Bei RunWild starten wir ganz entspannt. Egal, ob du nur eine Minute durchhältst oder noch gar nicht gelaufen bist, wir begleiten dich Schritt für Schritt auf deinem Weg zu mehr Ausdauer und Freude an der Bewegung.
-            </p>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="icon"><i class="fas fa-walking"></i></div>
-                    <h3>Sanfter Start</h3>
-                    <p>Geh- und Laufintervalle, die dich nicht überfordern.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="icon"><i class="fas fa-chart-line"></i></div>
-                    <h3>Schnelle Fortschritte</h3>
-                    <p>Du wirst staunen, wie schnell du deine Ausdauer steigerst.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="icon"><i class="fas fa-smile-beam"></i></div>
-                    <div class="benefit-content">
-                        <h3>Wohlfühlatmosphäre</h3>
-                        <p>Eine unterstützende Gruppe ohne Leistungsdruck.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section: Nicht gerne allein? -->
-        <div class="section" id="community">
-            <h2 class="section-heading">Nie mehr allein laufen!</h2>
-            <p class="section-text">
-                Laufen macht Spaß, aber in Gesellschaft ist es noch besser! Bei RunWild findest du eine motivierende Gemeinschaft von Laufbegeisterten. Teile deine Freude, überwinde Herausforderungen y knüpfe neue Freundschaften auf unseren gemeinsamen Routen.
-            </p>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="icon"><i class="fas fa-hand-holding-heart"></i></div>
-                    <h3>Gemeinschaft</h3>
-                    <p>Lerne neue Leute kennen, die deine Leidenschaft teilen.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="icon"><i class="fas fa-comments"></i></div>
-                    <h3>Austausch</h3>
-                    <p>Teile Erfahrungen und Tipps mit anderen Läufern.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="icon"><i class="fas fa-fire"></i></div>
-                    <h3>Motivation</h3>
-                    <p>Die Gruppe pusht dich, wenn du mal einen Durchhänger hast.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section: Neue Routen? -->
-        <div class="section" id="new-routes">
-            <h2 class="section-heading">Entdecke neue Horizonte beim Laufen!</h2>
-            <p class="section-text">
-                Verabschiede dich von langweiligen Routinen! Bei RunWild erkundest du mit us die schönsten Laufstrecken in und um Füssen. Von idyllischen Waldwegen bis zu atemberaubenden Bergpanoramen – jeder Lauf ist ein neues Abenteuer.
-            </p>
-            <div class="benefits-grid">
-                <div class="benefit-card">
+                <div class="benefit-card" id="NeueWege">
                     <div class="icon"><i class="fas fa-route"></i></div>
-                    <h3>Abwechslungsreiche Routen</h3>
-                    <p>Entdecke ständig neue Laufwege in und um Füssen.</p>
+                    <h3>Neue Wege entdecken willst</h3>
+                    <p>Erkunde Füssens Natur auf abwechslungsreichen Routen.</p>
                 </div>
-                <div class="benefit-card">
-                    <div class="icon"><i class="fas fa-mountain"></i></div>
-                    <h3>Malerische Landschaften</h3>
-                    <p>Laufe durch Füssens schönste Natur und Alpenkulisse.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="icon"><i class="fas fa-map-marked-alt"></i></div>
-                    <h3>Geführte Touren</h3>
-                    <p>Lass dich von erfahrenen Läufern an neue Orte führen.</p>
-                </div>
-            </div>
-        </div>
 
-        <!-- Section: Erstes Rennen? -->
-        <div class="section" id="first-race">
-            <h2 class="section-heading">Dein Weg zum ersten Finish!</h2>
-            <p class="section-text">
-                Träumst du davon, deine erste Laufveranstaltung zu meistern? Bei RunWild unterstützen wir dich con gezieltem Training und der richtigen Motivation. Egal ob 5k, 10k oder Marathon – wir bereiten dich optimal vor, damit du dein Ziel erreichst und stolz ins Ziel läufst!
-            </p>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="icon"><i class="fas fa-trophy"></i></div>
-                    <h3>Gezielte Vorbereitung</h3>
-                    <p>Trainingspläne für dein persönliches Rennen.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="icon"><i class="fas fa-brain"></i></div>
-                    <h3>Expertentipps</h3>
-                    <p>Lerne die besten Strategien für Renntag und Training.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="icon"><i class="fas fa-medal"></i></div>
-                    <h3>Gemeinsam zum Ziel</h3>
-                    <p>Feiere deinen Erfolg con einer unterstützenden Gruppe.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section: Ehrgeizige Ziele? -->
-        <div class="section" id="ambitious">
-            <h2 class="section-heading">Setz dir neue Laufziele!</h2>
-            <p class="section-text">
-                Du bist bereits Läufer und suchst nach der nächsten Herausforderung? Bei RunWild findest du gleichgesinnte Athleten und professionelle Unterstützung, um deine Bestzeiten zu verbessern, längere Distanzen zu bewältigen oder dich auf Ultraläufe vorzubereiten. Deine Ambitionen sind unser Ansporn!
-            </p>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="icon"><i class="fas fa-tachometer-alt"></i></div>
-                    <h3>Leistungssteigerung</h3>
-                    <p>Verbessere deine Geschwindigkeit und Ausdauer.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="icon"><i class="fas fa-tasks"></i></div>
-                    <h3>Strukturierte Pläne</h3>
-                    <p>Erhalte Trainingstipps und -strategien für deine Ziele.</p>
-                </div>
-                <div class="benefit-card">
+                <div class="benefit-card" id="Rennen">
                     <div class="icon"><i class="fas fa-flag-checkered"></i></div>
-                    <h3>Wettkampf-Fokus</h3>
-                    <p>Bereite dich optimal auf Marathons, Trails y mehr vor.</p>
+                    <h3>Dich auf ein Rennen vorbereitest</h3>
+                    <p>Wir unterstützen dich gezielt für dein nächstes Ziel.</p>
                 </div>
+
+                <div class="benefit-card" id="Urlaub">
+                    <div class="icon"><i class="fas fa-hospital"></i></div>
+                    <h3>Im Allgäu Urlaub machst</h3>
+                    <p>Bleib fit & entdecke die Region beim gemeinsamen Laufen.</p>
+                </div>
+            </div>
+            <!-- New CTA after benefits -->
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="#plans" class="hero-cta-button">Jetzt beitreten!</a>
             </div>
         </div>
 
-        <!-- Section: Mehr als Laufen? -->
-        <div class="section" id="more-than-running">
-            <h2 class="section-heading">Mehr als nur Laufen – Erlebe die RunWild Community!</h2>
+        <!-- Section: Mehr als nur Laufen (Social Activities) -->
+        <div class="section">
+            <h2 class="section-heading">Mehr als nur Laufen – Unsere Events!</h2>
             <p class="section-text">
-                Du suchst nicht nur nach Laufpartnern, sondern nach einer echten Gemeinschaft? Bei RunWild verbinden wir Sport con Geselligkeit! Neben gemeinsamen Läufen organisieren wir regelmäßige Events, bei denen der Spaß und der Austausch im Vordergrund stehen.
+                Neben dem Sport pflegen wir eine lebendige Gemeinschaft mit gemeinsamen Aktivitäten.
             </p>
-            <div class="activities-grid"> <!-- Using activities-grid for 3 columns in this case -->
+            <div class="activities-grid">
                 <div class="activity-card">
-                    <div class="icon">🍳</div>
+                    <div class="icon">☕</div>
                     <h3>Lauf-Frühstücke</h3>
                     <p>Zum Auftanken und Plaudern nach dem Lauf.</p>
                 </div>
                 <div class="activity-card">
-                    <div class="icon">🏞️</div>
+                    <div class="icon">🌳</div>
                     <h3>Natur-Picknicks</h3>
                     <p>Entspannung in der Natur nach einem schönen Lauf.</p>
                 </div>
                 <div class="activity-card">
-                    <div class="icon">🍺</div>
+                    <div class="icon">🍻</div> <!-- Changed emoji to beer mugs -->
                     <h3>Brauerei-Besuche</h3>
                     <p>Feiere Erfolge bei lokalen Brauereien.</p>
                 </div>
             </div>
-        </div>
-
-        <!-- Section: Urlaub im Allgäu? -->
-        <div class="section" id="vacation">
-            <h2 class="section-heading">Laufen im Allgäu – Dein perfekter Urlaubsbegleiter!</h2>
-            <p class="section-text">
-                Du bist im wunderschönen Allgäu und möchtest deine Laufschuhe nicht zu Hause lassen? Schließe dich RunWild an! Entdecke die atemberaubende Natur rund um Füssen con Gleichgesinnten. Perfekt, um im Urlaub fit zu bleiben und neue Kontakte zu knüpfen.
-            </p>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="icon"><i class="fas fa-map-pin"></i></div>
-                    <h3>Malerische Routen</h3>
-                    <p>Erlebe die Schönheit der Allgäuer Alpen beim Laufen.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="icon"><i class="fas fa-calendar-alt"></i></div>
-                    <h3>Flexible Teilnahme</h3>
-                    <p>Komm einfach mit, wenn es in deinen Urlaubsplan passt.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="icon"><i class="fas fa-info-circle"></i></div>
-                    <h3>Lokale Tipps</h3>
-                    <p>Entdecke die besten Geheimtipps der Region.</p>
-                </div>
+            <!-- New CTA after activities -->
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="#plans" class="hero-cta-button">Jetzt beitreten!</a>
             </div>
         </div>
 
@@ -1004,23 +1001,22 @@
             <div class="plans-grid">
                 <!-- Single Plan: Einziger Plan -->
                 <div class="plan-card highlight">
-                    <h3>🔥 Einziger Plan</h3>
+                    <h3>🔥 Dein RunWild Plan</h3>
                     <p class="price">€30<span>/Monat</span></p>
                     <p class="plan-description">
-                        Eine Gemeinschaft, die darauf ausgelegt ist, das Laufen zu genießen, sich Schritt für Schritt zu verbessern und den Weg con anderen Gleichgesinnten zu teilen.
+                        Eine Gemeinschaft, die dich auf deinem Weg begleitet: Spaß haben, dich verbessern und neue Freundschaften schließen.
                     </p>
-                    <h4>✅ Was ist enthalten?</h4>
+                    <h4>✅ Das ist dabei:</h4>
                     <ul>
-                        <li><i class="fas fa-check-circle"></i> WhatsApp-Gruppe con familiärer Atmosphäre und täglicher Motivation</li>
-                        <li><i class="fas fa-check-circle"></i> Monatlicher Trainingskalender con abwechslungsreichen Einheiten</li>
-                        <li><i class="fas fa-check-circle"></i> Monatliche Challenges con Preisen (Startnummern, Sportausrüstung, Überraschungen)</li>
-                        <li><i class="fas fa-check-circle"></i> Jährliche Planung empfohlener Rennen</li>
-                        <li><i class="fas fa-check-circle"></i> 24h-Verfügbarkeit via WhatsApp für Fragen und Unterstützung</li>
-                        <li><i class="fas fa-check-circle"></i> Willkommens-Club-T-Shirt</li>
+                        <li><i class="fas fa-check-circle"></i> WhatsApp-Gruppe & tägliche Motivation</li>
+                        <li><i class="fas fa-check-circle"></i> Monatlicher Trainingskalender & Challenges</li>
+                        <li><i class="fas fa-check-circle"></i> Jährliche Rennplanung & Support</li>
+                        <li><i class="fas fa-check-circle"></i> 24h WhatsApp-Support</li>
+                        <li><i class="fas fa-check-circle"></i> Willkommens-T-Shirt</li>
                     </ul>
-                    <a href="https://wa.me/34625573575?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20den%20einzigen%20Plan%20von%20RunWild." target="_blank" class="plan-button">Jetzt beitreten</a>
+                    <a href="https://wa.me/34625573575?text=Hallo%2C%20ich%20interesiere%20mich%20f%C3%BCr%20den%20einzigen%20Plan%20von%20RunWild." target="_blank" class="plan-button">Jetzt beitreten</a>
                     <p class="plan-why-pay">
-                        🧡 Warum bezahlen? Damit der Club wachsen, Inhalte und Challenges organisieren und dich auf deinem Läuferweg begleiten kann.
+                        🧡 Deine Beiträge ermöglichen das Wachstum des Clubs & tolle Events!
                     </p>
                 </div>
             </div>
@@ -1028,8 +1024,7 @@
 
         <!-- Contact Section -->
         <div class="section contact-section" id="contact">
-            <h2 class="section-heading">Bereit zum Mitmachen?</h2>
-            <p class="section-text">Fragen? Schreib uns eine WhatsApp!</p>
+            <h2 class="section-heading">Fragen? Kontaktiere uns!</h2>
             <div class="contact-info-items">
                 <a href="https://wa.me/34625573575" target="_blank" class="contact-item">
                     <div class="icon"><i class="fab fa-whatsapp whatsapp-icon"></i></div>
@@ -1040,6 +1035,10 @@
                     <span>87629, Füssen</span>
                 </div>
             </div>
+            <p class="section-text" style="margin-top: 30px;">
+                Fragen? Schreib uns eine WhatsApp!
+            </p>
+            <a href="#plans" class="hero-cta-button" style="margin-top: 20px;">Jetzt beitreten!</a>
         </div>
 
     </div>
@@ -1055,7 +1054,11 @@
             const openMenuBtn = document.getElementById('open-menu');
             const closeMenuBtn = document.getElementById('close-menu');
             const menuOverlay = document.getElementById('menu-overlay');
-            const overlayLinks = document.querySelectorAll('#menu-overlay .overlay-menu-list a');
+            const overlayLinks = document.querySelectorAll('#menu-overlay .overlay-menu-list .nav-link'); // Select top-level nav-links
+            const submenuLinks = document.querySelectorAll('#menu-overlay .submenu-link'); // Select submenu-links
+            const hasSubmenuItem = document.querySelector('#menu-overlay .has-submenu');
+            const submenu = document.querySelector('#menu-overlay .submenu');
+
 
             // --- Splash Screen Transition (3D Zoom) ---
             // Start the logo animation after a short delay to allow initial render
@@ -1086,34 +1089,92 @@
 
             // --- Menu Overlay Functionality ---
             openMenuBtn.addEventListener('click', () => {
+                console.log('Open menu button clicked!'); // Debugging log
                 menuOverlay.classList.add('active');
                 document.body.style.overflow = 'hidden'; // Prevent scrolling while overlay is open
+                console.log('menuOverlay active class added:', menuOverlay.classList.contains('active')); // Debugging log
+
+                // Temporary visual feedback for the button
+                openMenuBtn.style.backgroundColor = '#17a2b8'; // Cyan color on click
+                setTimeout(() => {
+                    openMenuBtn.style.backgroundColor = ''; // Revert after a short delay
+                }, 300);
             });
 
             closeMenuBtn.addEventListener('click', () => {
+                console.log('Close menu button clicked!'); // Debugging log
                 menuOverlay.classList.remove('active');
                 document.body.style.overflow = ''; // Restore scrolling
+                // Close any open submenus when main menu closes
+                if (hasSubmenuItem) {
+                    hasSubmenuItem.classList.remove('active-submenu');
+                }
+                console.log('menuOverlay active class removed:', menuOverlay.classList.contains('active')); // Debugging log
             });
 
-            // Close menu when a link inside the overlay is clicked
+            // Handle main nav links (non-submenu parents)
             overlayLinks.forEach(link => {
+                if (!link.parentElement.classList.contains('has-submenu')) { // Only attach if not a submenu parent
+                    link.addEventListener('click', () => {
+                        menuOverlay.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                }
+            });
+
+            // Handle submenu links
+            submenuLinks.forEach(link => {
                 link.addEventListener('click', (event) => {
-                    // Prevent default anchor behavior initially to ensure smooth scroll is handled by browser
-                    // event.preventDefault(); 
-                    
+                    event.preventDefault(); // Prevent default behavior to allow custom scroll (if needed) or simply let browser handle smooth scroll
+                    const targetId = link.dataset.targetId; // Get the ID of the section to scroll to
+
                     menuOverlay.classList.remove('active');
                     document.body.style.overflow = '';
 
-                    // The smooth scroll is handled by 'scroll-behavior: smooth' on html
-                    // and the href attribute on the anchor tags.
+                    // Scroll to the specific section within #for-whom
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    } else {
+                        // If specific ID not found, scroll to the main #for-whom section
+                        document.getElementById('for-whom').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
                 });
             });
 
+            // Toggle submenu visibility for 'has-submenu' item
+            if (hasSubmenuItem) {
+                const submenuParentLink = hasSubmenuItem.querySelector('.nav-link');
+                submenuParentLink.addEventListener('click', (event) => {
+                    event.preventDefault(); // Prevent main link navigation
+                    // Toggle 'active-submenu' class on parent LI
+                    hasSubmenuItem.classList.toggle('active-submenu');
+                });
+
+                // Close submenu if clicking outside on mobile (when submenu is expanded)
+                menuOverlay.addEventListener('click', (event) => {
+                    // Check if the click occurred within the hasSubmenuItem itself or its submenu
+                    const isClickInsideSubmenuParent = hasSubmenuItem.contains(event.target);
+                    // Check if the click was directly on the submenu link or within the submenu itself
+                    const isClickOnSubmenuLink = submenuParentLink === event.target || (submenu && submenu.contains(event.target)); // Added submenu check for null
+
+                    // Only close if active and click is outside the submenu parent and its submenu
+                    if (hasSubmenuItem.classList.contains('active-submenu') && !isClickInsideSubmenuParent && !isClickOnSubmenuLink) {
+                        hasSubmenuItem.classList.remove('active-submenu');
+                    }
+                });
+            }
+
             // Close menu if clicking outside the menu content (on the overlay background)
             menuOverlay.addEventListener('click', (event) => {
+                // Ensure it's not a click on the menu content itself
                 if (event.target === menuOverlay) {
+                    console.log('Clicked outside menu overlay, closing.'); // Debugging log
                     menuOverlay.classList.remove('active');
                     document.body.style.overflow = '';
+                    if (hasSubmenuItem) {
+                        hasSubmenuItem.classList.remove('active-submenu'); // Close submenu too
+                    }
                 }
             });
             // --- End Menu Overlay Functionality ---
@@ -1121,6 +1182,7 @@
     </script>
 </body>
 </html>
+
 
 
 
