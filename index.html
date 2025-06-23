@@ -6,6 +6,8 @@
     <title>RunWild – Dein Laufclub in Füssen</title>
     <!-- Enlace a la fuente Inter desde Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Enlace a la fuente Montserrat desde Google Fonts para el menú -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&display=swap" rel="stylesheet">
     <!-- Enlace a Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -83,6 +85,7 @@
             transform: perspective(1000px) translateZ(-500px) scale(0.5); 
             opacity: 0;
             transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 1s ease-in; /* Custom cubic-bezier for more dynamic feel */
+            border-radius: 50%; /* Make it perfectly round */
         }
 
         #splash-screen.loaded #splash-logo {
@@ -118,7 +121,7 @@
             height: 45px; /* Size of the mini logo */
             width: auto;
             margin-right: 15px;
-            border-radius: 50%; /* Make it round if preferred */
+            border-radius: 50%; /* Make it perfectly round */
             box-shadow: 0 0 8px rgba(255,255,255,0.3); /* Subtle glow */
             transition: height 0.3s ease, margin-right 0.3s ease; /* Transition for shrinking */
         }
@@ -186,7 +189,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9); /* Semi-transparent dark overlay */
+            background: linear-gradient(135deg, #e0f2fe 0%, #d5efff 100%); /* Light blue gradient */
             z-index: 2000; /* Above regular content, below splash screen */
             display: flex;
             justify-content: center;
@@ -203,41 +206,84 @@
 
         #menu-overlay .close-button {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 25px; /* Slightly more space from top */
+            right: 25px; /* Slightly more space from right */
             background: none;
             border: none;
-            font-size: 2.5rem;
-            color: white;
+            font-size: 2.8rem; /* Larger close button */
+            color: var(--dark-text); /* Darker color for contrast */
             cursor: pointer;
-            transition: transform 0.2s ease;
+            transition: transform 0.2s ease, color 0.3s ease;
         }
 
         #menu-overlay .close-button:hover {
             transform: rotate(90deg);
+            color: var(--primary-blue); /* Hover color */
         }
 
         #menu-overlay .overlay-menu-list {
-            list-style: none;
+            list-style: none; /* Remove default list style */
             padding: 0;
-            text-align: center;
+            text-align: left; /* Align text to the left */
+            width: 80%; /* Constrain width for better readability */
+            max-width: 400px; /* Max width for consistency */
+            margin-left: auto; /* Center the list */
+            margin-right: auto;
         }
 
         #menu-overlay .overlay-menu-list li {
-            margin-bottom: 20px;
+            margin-bottom: 15px; /* Adjusted space between items */
+            transform: translateY(20px); /* Initial state for animation */
+            opacity: 0; /* Initial state for animation */
+            transition: transform 0.4s ease-out, opacity 0.4s ease-out; /* Animation */
+            position: relative; /* For custom bullet positioning */
+            padding-left: 25px; /* Space for the custom bullet */
         }
 
+        #menu-overlay .overlay-menu-list li::before {
+            content: '•'; /* Custom bullet point */
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--primary-blue); /* Color of the bullet */
+            font-size: 1.2em; /* Size of the bullet */
+            line-height: inherit; /* Align with text */
+        }
+
+
+        #menu-overlay.active .overlay-menu-list li {
+            transform: translateY(0); /* Final state for animation */
+            opacity: 1;
+        }
+
+        /* Delay for sequential animation */
+        #menu-overlay.active .overlay-menu-list li:nth-child(1) { transition-delay: 0.1s; }
+        #menu-overlay.active .overlay-menu-list li:nth-child(2) { transition-delay: 0.15s; }
+        #menu-overlay.active .overlay-menu-list li:nth-child(3) { transition-delay: 0.2s; }
+        #menu-overlay.active .overlay-menu-list li:nth-child(4) { transition-delay: 0.25s; }
+        #menu-overlay.active .overlay-menu-list li:nth-child(5) { transition-delay: 0.3s; }
+        #menu-overlay.active .overlay-menu-list li:nth-child(6) { transition-delay: 0.35s; }
+        #menu-overlay.active .overlay-menu-list li:nth-child(7) { transition-delay: 0.4s; }
+        #menu-overlay.active .overlay-menu-list li:nth-child(8) { transition-delay: 0.45s; }
+        #menu-overlay.active .overlay-menu-list li:nth-child(9) { transition-delay: 0.5s; }
+        #menu-overlay.active .overlay-menu-list li:nth-child(10) { transition-delay: 0.55s; }
+        #menu-overlay.active .overlay-menu-list li:nth-child(11) { transition-delay: 0.6s; }
+        #menu-overlay.active .overlay-menu-list li:nth-child(12) { transition-delay: 0.65s; }
+
+
         #menu-overlay .overlay-menu-list li a {
-            color: white;
+            color: var(--dark-text); /* Use dark text for contrast on light background */
             text-decoration: none;
-            font-size: 2rem;
+            font-family: 'Montserrat', sans-serif; /* New font for menu items */
+            font-size: 1.6rem; /* Reduced font size for menu items */
             font-weight: 700;
             transition: color 0.3s ease, transform 0.2s ease;
-            display: inline-block; /* For transform to work */
+            display: inline-block;
+            letter-spacing: 0.5px; /* Add a little letter spacing */
         }
 
         #menu-overlay .overlay-menu-list li a:hover {
-            color: var(--secondary-orange);
+            color: var(--primary-blue); /* Primary blue on hover for consistency */
             transform: scale(1.05);
         }
         
@@ -258,6 +304,7 @@
             max-width: 300px; /* Logo size in hero */
             height: auto;
             margin-bottom: 20px;
+            border-radius: 50%; /* Make it perfectly round */
         }
         
         .hero-section h1 {
@@ -596,83 +643,16 @@
             }
 
             /* Menu Overlay (Modal) adjustments for mobile */
+            #menu-overlay .close-button {
+                font-size: 2rem;
+                top: 15px;
+                right: 15px;
+            }
+            #menu-overlay .overlay-menu-list li {
+                margin-bottom: 12px; /* Reduce spacing slightly more for mobile */
+            }
             #menu-overlay .overlay-menu-list li a {
-                font-size: 1.5rem; /* Smaller text for mobile overlay */
-            }
-
-            .hero-section {
-                padding: 60px 15px 40px;
-                margin-bottom: 40px;
-            }
-            .hero-section h1 {
-                font-size: 2.8rem;
-            }
-            .hero-section .tagline {
-                font-size: 1.3rem;
-            }
-            .hero-section .intro-text-hero {
-                font-size: 1rem;
-            }
-            .section {
-                padding: 30px;
-                margin-bottom: 25px;
-            }
-            .section-heading {
-                font-size: 1.8rem;
-                margin-bottom: 20px;
-            }
-            .section-text {
-                font-size: 1rem;
-                margin-bottom: 30px;
-            }
-            .benefits-grid, .activities-grid, .plans-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            .benefit-card, .activity-card, .plan-card {
-                padding: 20px;
-            }
-            .benefit-card .icon {
-                font-size: 2.5rem;
-            }
-            .benefit-card h3 {
-                font-size: 1.2rem;
-            }
-            .benefit-card p {
-                font-size: 0.9rem;
-            }
-            .activity-card .icon {
-                font-size: 2rem;
-            }
-            .plan-card h3 {
-                font-size: 1.5rem;
-            }
-            .plan-card .price {
-                font-size: 2rem;
-            }
-            .plan-card .price span {
-                font-size: 1rem;
-            }
-            .plan-card ul li {
-                font-size: 0.9rem;
-            }
-            .plan-button {
-                font-size: 1rem;
-                padding: 10px 20px;
-            }
-            .contact-section {
-                padding: 30px;
-            }
-            .contact-info-items {
-                flex-direction: column;
-                gap: 15px;
-            }
-            .contact-item {
-                width: 100%;
-                justify-content: center;
-            }
-            .plan-description, .plan-why-pay {
-                font-size: 0.9rem; /* Adjust font size for mobile */
+                font-size: 1.2rem; /* Adjusted for mobile view */
             }
         }
 
@@ -858,7 +838,7 @@
         <div class="section" id="community">
             <h2 class="section-heading">Nie mehr allein laufen!</h2>
             <p class="section-text">
-                Laufen macht Spaß, aber in Gesellschaft ist es noch besser! Bei RunWild findest du eine motivierende Gemeinschaft von Laufbegeisterten. Teile deine Freude, überwinde Herausforderungen und knüpfe neue Freundschaften auf unseren gemeinsamen Routen.
+                Laufen macht Spaß, aber in Gesellschaft ist es noch besser! Bei RunWild findest du eine motivierende Gemeinschaft von Laufbegeisterten. Teile deine Freude, überwinde Herausforderungen y knüpfe neue Freundschaften auf unseren gemeinsamen Routen.
             </p>
             <div class="benefits-grid">
                 <div class="benefit-card">
@@ -883,7 +863,7 @@
         <div class="section" id="new-routes">
             <h2 class="section-heading">Entdecke neue Horizonte beim Laufen!</h2>
             <p class="section-text">
-                Verabschiede dich von langweiligen Routinen! Bei RunWild erkundest du mit uns die schönsten Laufstrecken in und um Füssen. Von idyllischen Waldwegen bis zu atemberaubenden Bergpanoramen – jeder Lauf ist ein neues Abenteuer.
+                Verabschiede dich von langweiligen Routinen! Bei RunWild erkundest du mit us die schönsten Laufstrecken in und um Füssen. Von idyllischen Waldwegen bis zu atemberaubenden Bergpanoramen – jeder Lauf ist ein neues Abenteuer.
             </p>
             <div class="benefits-grid">
                 <div class="benefit-card">
@@ -949,7 +929,7 @@
                 <div class="benefit-card">
                     <div class="icon"><i class="fas fa-flag-checkered"></i></div>
                     <h3>Wettkampf-Fokus</h3>
-                    <p>Bereite dich optimal auf Marathons, Trails und mehr vor.</p>
+                    <p>Bereite dich optimal auf Marathons, Trails y mehr vor.</p>
                 </div>
             </div>
         </div>
@@ -1127,5 +1107,6 @@
     </script>
 </body>
 </html>
+
 
 
