@@ -43,7 +43,7 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding-top: 80px; /* Space for fixed nav */
+            padding-top: 80px; /* Space for fixed nav - initial height of nav */
             overflow-x: hidden; /* Prevent horizontal scroll */
         }
         
@@ -68,7 +68,7 @@
             z-index: 9999; /* Ensure it's above everything */
             opacity: 1;
             visibility: visible;
-            transition: opacity 1s ease-out, visibility 1s ease-out; /* Transition to hide */
+            transition: opacity 1s ease-out, visibility 1s ease-out; /* Transition for hiding */
         }
 
         #splash-screen.hidden {
@@ -79,14 +79,23 @@
         #splash-logo {
             max-width: 350px; /* Logo size on splash screen */
             height: auto;
-            transform: scale(1); /* Initial state */
-            transition: transform 1.5s ease-out; /* Scale transition */
+            /* Initial 3D transform: zoomed out and pushed back */
+            transform: perspective(1000px) translateZ(-500px) scale(0.5); 
+            opacity: 0;
+            transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 1s ease-in; /* Custom cubic-bezier for more dynamic feel */
         }
+
+        #splash-screen.loaded #splash-logo {
+            /* Final 3D transform: zoomed in to normal size */
+            transform: perspective(1000px) translateZ(0px) scale(1); 
+            opacity: 1;
+        }
+
 
         /* Navigation Bar */
         nav {
             background: linear-gradient(90deg, var(--nav-bg-dark) 0%, #3e4a5b 100%); /* Subtle gradient */
-            padding: 10px 20px; /* Adjusted padding */
+            padding: 10px 20px; /* Initial padding */
             width: 100%;
             position: fixed; /* Fixed navigation bar */
             top: 0;
@@ -96,6 +105,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: padding 0.3s ease, height 0.3s ease; /* Transition for shrinking */
         }
 
         nav .nav-brand {
@@ -110,6 +120,7 @@
             margin-right: 15px;
             border-radius: 50%; /* Make it round if preferred */
             box-shadow: 0 0 8px rgba(255,255,255,0.3); /* Subtle glow */
+            transition: height 0.3s ease, margin-right 0.3s ease; /* Transition for shrinking */
         }
 
         nav .nav-brand .brand-text {
@@ -117,52 +128,117 @@
             font-size: 1.6rem;
             font-weight: 700;
             letter-spacing: 0.5px;
+            transition: font-size 0.3s ease; /* Transition for shrinking */
         }
 
-        nav .nav-list {
-            list-style: none;
+        /* Menu Toggle Button */
+        .menu-toggle {
+            background-color: var(--secondary-orange);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: flex; /* Allow icon and text to be side-by-side */
+            align-items: center;
+            gap: 8px; /* Space between icon and text */
+        }
+
+        .menu-toggle:hover {
+            background-color: #e06d3d;
+            transform: translateY(-2px);
+        }
+
+        .menu-toggle i {
+            font-size: 1.1rem;
+        }
+
+        /* Nav Scrolled State */
+        nav.nav-scrolled {
+            padding: 5px 20px; /* Reduced padding when scrolled */
+        }
+
+        nav.nav-scrolled .nav-brand .mini-logo {
+            height: 35px; /* Smaller logo when scrolled */
+            margin-right: 10px;
+        }
+
+        nav.nav-scrolled .nav-brand .brand-text {
+            font-size: 1.4rem; /* Smaller brand text when scrolled */
+        }
+
+        nav.nav-scrolled .menu-toggle {
+            padding: 8px 15px; /* Smaller button when scrolled */
+            font-size: 0.9rem;
+        }
+        nav.nav-scrolled .menu-toggle i {
+            font-size: 0.9rem;
+        }
+
+
+        /* Menu Overlay (Modal) */
+        #menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9); /* Semi-transparent dark overlay */
+            z-index: 2000; /* Above regular content, below splash screen */
             display: flex;
             justify-content: center;
-            flex-wrap: wrap;
-            margin: 0; /* Reset margin */
-            padding: 0; /* Reset padding */
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
         }
 
-        nav .nav-list li {
-            margin: 0 8px; /* Slightly reduced margin to accommodate longer text */
+        #menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
 
-        nav .nav-list li a {
+        #menu-overlay .close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 2.5rem;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        #menu-overlay .close-button:hover {
+            transform: rotate(90deg);
+        }
+
+        #menu-overlay .overlay-menu-list {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        #menu-overlay .overlay-menu-list li {
+            margin-bottom: 20px;
+        }
+
+        #menu-overlay .overlay-menu-list li a {
             color: white;
             text-decoration: none;
-            font-weight: 500;
-            padding: 10px 0; /* Increased padding for better touch target */
-            position: relative;
-            white-space: nowrap;
+            font-size: 2rem;
+            font-weight: 700;
             transition: color 0.3s ease, transform 0.2s ease;
-            font-size: 0.9rem; /* Adjusted font size for compactness with longer text */
+            display: inline-block; /* For transform to work */
         }
 
-        nav .nav-list li a::after { /* Underline effect */
-            content: '';
-            position: absolute;
-            left: 50%;
-            bottom: 0;
-            transform: translateX(-50%) scaleX(0);
-            width: 100%;
-            height: 3px;
-            background-color: var(--nav-hover-light);
-            border-radius: 2px;
-            transition: transform 0.3s ease;
-        }
-
-        nav .nav-list li a:hover {
-            color: var(--nav-hover-light); /* Lighter color on hover */
-            transform: translateY(-2px); /* Subtle lift effect */
-        }
-
-        nav .nav-list li a:hover::after {
-            transform: translateX(-50%) scaleX(1);
+        #menu-overlay .overlay-menu-list li a:hover {
+            color: var(--secondary-orange);
+            transform: scale(1.05);
         }
         
         /* Hero section (Hero) */
@@ -479,20 +555,16 @@
         /* Responsive adjustments */
         @media (max-width: 768px) {
             body {
-                padding-top: 60px;
+                padding-top: 60px; /* Adjusted space for nav on mobile */
             }
             nav {
-                flex-direction: column; /* Stack logo and menu on small screens */
+                flex-direction: row; /* Keep logo and menu toggle in a row */
                 padding: 10px;
-                align-items: flex-start;
+                align-items: center;
+                justify-content: space-between; /* Space out logo and menu toggle */
             }
             nav .nav-list {
-                justify-content: flex-start; /* Align menu items to start */
-                margin-top: 10px;
-            }
-            nav .nav-list li {
-                margin: 0 6px 5px 0; /* Adjust spacing */
-                font-size: 0.8rem; /* Further reduced font size for mobile */
+                display: none; /* Hide direct nav links on smaller screens */
             }
             nav .nav-brand .mini-logo {
                 height: 40px;
@@ -501,6 +573,33 @@
             nav .nav-brand .brand-text {
                 font-size: 1.4rem;
             }
+
+            /* Nav Scrolled State on Mobile */
+            nav.nav-scrolled {
+                padding: 5px 10px; /* More reduced padding on mobile when scrolled */
+            }
+
+            nav.nav-scrolled .nav-brand .mini-logo {
+                height: 30px; /* Even smaller logo on mobile when scrolled */
+            }
+
+            nav.nav-scrolled .nav-brand .brand-text {
+                font-size: 1.2rem; /* Even smaller brand text on mobile when scrolled */
+            }
+
+            nav.nav-scrolled .menu-toggle {
+                padding: 8px 15px; /* Smaller button when scrolled */
+                font-size: 0.9rem;
+            }
+            nav.nav-scrolled .menu-toggle i {
+                font-size: 0.9rem;
+            }
+
+            /* Menu Overlay (Modal) adjustments for mobile */
+            #menu-overlay .overlay-menu-list li a {
+                font-size: 1.5rem; /* Smaller text for mobile overlay */
+            }
+
             .hero-section {
                 padding: 60px 15px 40px;
                 margin-bottom: 40px;
@@ -619,27 +718,35 @@
         <img src="https://i.imgur.com/Z2uvWeN.png" alt="RunWild Logo" id="splash-logo">
     </div>
 
+    <!-- Menu Overlay (Hidden by default) -->
+    <div id="menu-overlay">
+        <button class="close-button" id="close-menu"><i class="fas fa-times"></i></button>
+        <ul class="overlay-menu-list">
+            <li><a href="#welcome" data-section="welcome">Startseite</a></li>
+            <li><a href="#why-us" data-section="why-us">Unsere Vorteile</a></li>
+            <li><a href="#no-time" data-section="no-time">Keine Zeit?</a></li>
+            <li><a href="#beginner" data-section="beginner">Für Anfänger</a></li>
+            <li><a href="#community" data-section="community">Nicht gern allein?</a></li>
+            <li><a href="#new-routes" data-section="new-routes">Neue Routen?</a></li>
+            <li><a href="#first-race" data-section="first-race">Erstes Rennen?</a></li>
+            <li><a href="#ambitious" data-section="ambitious">Ehrgeizige Ziele?</a></li>
+            <li><a href="#more-than-running" data-section="more-than-running">Mehr als Laufen?</a></li>
+            <li><a href="#vacation" data-section="vacation">Urlaub im Allgäu?</a></li>
+            <li><a href="#plans" data-section="plans">Unsere Pläne</a></li>
+            <li><a href="#contact" data-section="contact">Kontakt</a></li>
+        </ul>
+    </div>
+
     <div class="container">
         <!-- Navigation Bar -->
-        <nav>
+        <nav id="main-nav">
             <a href="#welcome" class="nav-brand">
                 <img src="https://i.imgur.com/Z2uvWeN.png" alt="RunWild Mini Logo" class="mini-logo">
                 <span class="brand-text">RunWild</span>
             </a>
-            <ul class="nav-list">
-                <li><a href="#welcome">Startseite</a></li>
-                <li><a href="#why-us">Unsere Vorteile</a></li>
-                <li><a href="#no-time">Keine Zeit?</a></li>
-                <li><a href="#beginner">Für Anfänger</a></li>
-                <li><a href="#community">Nicht gern allein?</a></li>
-                <li><a href="#new-routes">Neue Routen?</a></li>
-                <li><a href="#first-race">Erstes Rennen?</a></li>
-                <li><a href="#ambitious">Ehrgeizige Ziele?</a></li>
-                <li><a href="#more-than-running">Mehr als Laufen?</a></li>
-                <li><a href="#vacation">Urlaub im Allgäu?</a></li>
-                <li><a href="#plans">Unsere Pläne</a></li>
-                <li><a href="#contact">Kontakt</a></li>
-            </ul>
+            <button class="menu-toggle" id="open-menu">
+                <i class="fas fa-bars"></i> Menü
+            </button>
         </nav>
 
         <!-- Hero Section -->
@@ -951,21 +1058,74 @@
         document.addEventListener('DOMContentLoaded', () => {
             const splashScreen = document.getElementById('splash-screen');
             const splashLogo = document.getElementById('splash-logo');
+            const openMenuBtn = document.getElementById('open-menu');
+            const closeMenuBtn = document.getElementById('close-menu');
+            const menuOverlay = document.getElementById('menu-overlay');
+            const overlayLinks = document.querySelectorAll('#menu-overlay .overlay-menu-list a');
 
-            // Optional: Make logo slightly bigger for the splash screen effect
-            splashLogo.style.transform = 'scale(1.1)';
-
+            // --- Splash Screen Transition (3D Zoom) ---
+            // Start the logo animation after a short delay to allow initial render
             setTimeout(() => {
-                // Fade out the splash screen
+                splashScreen.classList.add('loaded'); // Add class to trigger the 3D zoom
+            }, 100); 
+
+            // Fade out the splash screen after the zoom animation completes
+            setTimeout(() => {
                 splashScreen.classList.add('hidden');
-                
-                // After the transition, remove it from the DOM to ensure it doesn't block interactions
                 splashScreen.addEventListener('transitionend', () => {
                     splashScreen.remove();
-                }, { once: true }); // Use { once: true } to ensure the event listener is only called once
-            }, 1500); // Display logo for 1.5 seconds before starting fade-out
+                }, { once: true });
+            }, 1600); // Total time: 100ms delay + 1.5s transform transition + 1s fade out
+
+            // --- Scroll-based Navbar Shrink ---
+            const mainNav = document.getElementById('main-nav');
+            const scrollThreshold = 50; // Pixels scrolled before shrinking
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > scrollThreshold) {
+                    mainNav.classList.add('nav-scrolled');
+                } else {
+                    mainNav.classList.remove('nav-scrolled');
+                }
+            });
+            // --- End Scroll-based Navbar Shrink ---
+
+            // --- Menu Overlay Functionality ---
+            openMenuBtn.addEventListener('click', () => {
+                menuOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling while overlay is open
+            });
+
+            closeMenuBtn.addEventListener('click', () => {
+                menuOverlay.classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
+            });
+
+            // Close menu when a link inside the overlay is clicked
+            overlayLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    // Prevent default anchor behavior initially to ensure smooth scroll is handled by browser
+                    // event.preventDefault(); 
+                    
+                    menuOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+
+                    // The smooth scroll is handled by 'scroll-behavior: smooth' on html
+                    // and the href attribute on the anchor tags.
+                });
+            });
+
+            // Close menu if clicking outside the menu content (on the overlay background)
+            menuOverlay.addEventListener('click', (event) => {
+                if (event.target === menuOverlay) {
+                    menuOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+            // --- End Menu Overlay Functionality ---
         });
     </script>
 </body>
 </html>
+
 
