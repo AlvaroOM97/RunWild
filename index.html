@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RunWild – Dein Laufclub in Füssen</title>
+    <title data-key="pageTitle">RunWild – Dein Laufclub in Füssen</title>
     <!-- Enlace a la fuente Inter desde Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Enlace a la fuente Montserrat desde Google Fonts para el menú -->
@@ -132,6 +132,73 @@
             font-weight: 700;
             letter-spacing: 0.5px;
             transition: font-size 0.3s ease; /* Transition for shrinking */
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: relative;
+            margin-right: 15px; /* Space between language switcher and menu button */
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1010; /* Above nav but below overlay */
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 20px;
+            background-color: rgba(255,255,255,0.1); /* Subtle background */
+            transition: background-color 0.3s ease;
+        }
+
+        .language-switcher:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .language-switcher .current-lang {
+            margin-right: 8px;
+        }
+
+        .language-switcher .fa-chevron-down {
+            font-size: 0.7em;
+            transition: transform 0.3s ease;
+        }
+
+        .language-switcher.active .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 100%; /* Position below the switcher */
+            right: 0; /* Align to the right */
+            background-color: var(--nav-bg-dark); /* Dark background for dropdown */
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            list-style: none;
+            padding: 10px 0;
+            min-width: 120px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+        }
+
+        .language-switcher.active .language-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .language-dropdown li {
+            padding: 8px 15px;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .language-dropdown li:hover {
+            background-color: #3e4a5b; /* Slightly lighter dark blue on hover */
         }
 
         /* Menu Toggle Button */
@@ -699,7 +766,7 @@
             color: var(--whatsapp-green);
         }
         
-        .location-icon {
+.location-icon {
             color: var(--location-red);
         }
         
@@ -844,6 +911,16 @@
             .activity-card p {
                 font-size: 0.9rem; /* Reverted to original (or close to original) */
             }
+
+            /* Language switcher on mobile */
+            .language-switcher {
+                font-size: 0.85rem;
+                padding: 6px 10px;
+                margin-right: 10px;
+            }
+            .language-dropdown {
+                min-width: 100px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -891,20 +968,20 @@
     <div id="menu-overlay">
         <button class="close-button" id="close-menu"><i class="fas fa-times"></i></button>
         <ul class="overlay-menu-list">
-            <li><a href="#welcome" data-section="welcome" class="nav-link">Startseite</a></li>
+            <li><a href="#welcome" data-section="welcome" class="nav-link" data-key="menuHome">Startseite</a></li>
             <li class="has-submenu">
-                <a href="#" data-section="for-whom" class="nav-link">Für wen ist RunWild?</a>
+                <a href="#" data-section="for-whom" class="nav-link" data-key="menuForWhom">Für wen ist RunWild?</a>
                 <ul class="submenu">
-                    <li><a href="#for-whom" data-target-id="Anfanger" class="submenu-link">Anfänger</a></li>
-                    <li><a href="#for-whom" data-target-id="WenigZeit" class="submenu-link">Wenig Zeit</a></li>
-                    <li><a href="#for-whom" data-target-id="Gesellschaft" class="submenu-link">Gesellschaft</a></li>
-                    <li><a href="#for-whom" data-target-id="NeueWege" class="submenu-link">Neue Wege</a></li>
-                    <li><a href="#for-whom" data-target-id="Rennen" class="submenu-link">Rennen</a></li>
-                    <li><a href="#for-whom" data-target-id="Urlaub" class="submenu-link">Urlaub</a></li>
+                    <li><a href="#for-whom" data-target-id="Anfanger" class="submenu-link" data-key="submenuBeginners">Anfänger</a></li>
+                    <li><a href="#for-whom" data-target-id="WenigZeit" class="submenu-link" data-key="submenuLittleTime">Wenig Zeit</a></li>
+                    <li><a href="#for-whom" data-target-id="Gesellschaft" class="submenu-link" data-key="submenuCompany">Gesellschaft</a></li>
+                    <li><a href="#for-whom" data-target-id="NeueWege" class="submenu-link" data-key="submenuNewPaths">Neue Wege</a></li>
+                    <li><a href="#for-whom" data-target-id="Rennen" class="submenu-link" data-key="submenuRacePrep">Rennen</a></li>
+                    <li><a href="#for-whom" data-target-id="Urlaub" class="submenu-link" data-key="submenuHoliday">Urlaub</a></li>
                 </ul>
             </li>
-            <li><a href="#plans" data-section="plans" class="nav-link">Unsere Pläne</a></li>
-            <li><a href="#contact" data-section="contact" class="nav-link">Kontakt</a></li>
+            <li><a href="#plans" data-section="plans" class="nav-link" data-key="menuOurPlans">Unsere Pläne</a></li>
+            <li><a href="#contact" data-section="contact" class="nav-link" data-key="menuContact">Kontakt</a></li>
         </ul>
     </div>
 
@@ -915,119 +992,131 @@
                 <img src="https://i.imgur.com/Z2uvWeN.png" alt="RunWild Mini Logo" class="mini-logo">
                 <span class="brand-text">RunWild</span>
             </a>
-            <button class="menu-toggle" id="open-menu">
-                <i class="fas fa-bars"></i> Menü
-            </button>
+            <div style="display: flex; align-items: center;">
+                <!-- Language Switcher -->
+                <div class="language-switcher" id="language-switcher">
+                    <span class="current-lang" id="current-lang">Deutsch</span>
+                    <i class="fas fa-chevron-down"></i>
+                    <ul class="language-dropdown">
+                        <li data-lang="de">Deutsch</li>
+                        <li data-lang="en">English</li>
+                        <li data-lang="es">Español</li>
+                    </ul>
+                </div>
+                <button class="menu-toggle" id="open-menu">
+                    <i class="fas fa-bars"></i> <span data-key="menuButtonText">Menü</span>
+                </button>
+            </div>
         </nav>
 
         <!-- Hero Section -->
         <div class="hero-section" id="welcome">
             <img src="https://i.imgur.com/Z2uvWeN.png" alt="RunWild Logo" class="hero-logo">
-            <h1>RunWild Füssen</h1>
-            <p class="tagline">Erlebe die Freiheit des Laufens!</p>
-            <p class="intro-text-hero">
+            <h1 data-key="heroTitle">RunWild Füssen</h1>
+            <p class="tagline" data-key="heroTagline">Erlebe die Freiheit des Laufens!</p>
+            <p class="intro-text-hero" data-key="heroIntro">
                 Dein Laufclub in Füssen: Gemeinschaft, Natur und Bewegung für alle.
             </p>
-            <a href="https://wa.me/34625573575?text=Hallo%2C%20ich%20interesiere%20mich%20f%C3%BCr%20den%20einzigen%20Plan%20von%20RunWild." target="_blank" class="hero-cta-button">Jetzt beitreten!</a>
+            <a href="https://wa.me/34625573575?text=Hallo%2C%20ich%20interesiere%20mich%20f%C3%BCr%20den%20einzigen%20Plan%20von%20RunWild." target="_blank" class="hero-cta-button" data-key="heroCta">Jetzt beitreten!</a>
         </div>
 
         <!-- Section: Para Quién es RunWild? (Combined Benefits) -->
         <div class="section" id="for-whom">
-            <h2 class="section-heading">RunWild ist für dich, wenn du...</h2>
+            <h2 class="section-heading" data-key="forWhomHeading">RunWild ist für dich, wenn du...</h2>
             
             <div class="benefits-grid">
                 <div class="benefit-card" id="Anfanger">
                     <div class="icon"><i class="fas fa-shoe-prints"></i></div>
-                    <h3>Anfänger bist</h3>
-                    <p>Lerne entspannt mit uns laufen, Schritt für Schritt.</p>
+                    <h3 data-key="benefitBeginnersTitle">Anfänger bist</h3>
+                    <p data-key="benefitBeginnersText">Lerne entspannt mit uns laufen, Schritt für Schritt.</p>
                 </div>
                 
                 <div class="benefit-card" id="WenigZeit">
                     <div class="icon"><i class="fas fa-clock"></i></div>
-                    <h3>Wenig Zeit hast</h3>
-                    <p>Finde flexible Laufgruppen, die in deinen Alltag passen.</p>
+                    <h3 data-key="benefitLittleTimeTitle">Wenig Zeit hast</h3>
+                    <p data-key="benefitLittleTimeText">Finde flexible Laufgruppen, die in deinen Alltag passen.</p>
                 </div>
                 
                 <div class="benefit-card" id="Gesellschaft">
                     <div class="icon"><i class="fas fa-users"></i></div>
-                    <h3>Gesellschaft suchst</h3>
-                    <p>Laufe mit Gleichgesinnten & knüpfe neue Freundschaften.</p>
+                    <h3 data-key="benefitCompanyTitle">Gesellschaft suchst</h3>
+                    <p data-key="benefitCompanyText">Laufe mit Gleichgesinnten & knüpfe neue Freundschaften.</p>
                 </div>
                 
                 <div class="benefit-card" id="NeueWege">
                     <div class="icon"><i class="fas fa-route"></i></div>
-                    <h3>Neue Wege entdecken willst</h3>
-                    <p>Erkunde Füssens Natur auf abwechslungsreichen Routen.</p>
+                    <h3 data-key="benefitNewPathsTitle">Neue Wege entdecken willst</h3>
+                    <p data-key="benefitNewPathsText">Erkunde Füssens Natur auf abwechslungsreichen Routen.</p>
                 </div>
 
                 <div class="benefit-card" id="Rennen">
                     <div class="icon"><i class="fas fa-flag-checkered"></i></div>
-                    <h3>Dich auf ein Rennen vorbereitest</h3>
-                    <p>Wir unterstützen dich gezielt für dein nächstes Ziel.</p>
+                    <h3 data-key="benefitRacePrepTitle">Dich auf ein Rennen vorbereitest</h3>
+                    <p data-key="benefitRacePrepText">Wir unterstützen dich gezielt für dein nächstes Ziel.</p>
                 </div>
 
                 <div class="benefit-card" id="Urlaub">
                     <div class="icon"><i class="fas fa-hospital"></i></div>
-                    <h3>Im Allgäu Urlaub machst</h3>
-                    <p>Bleib fit & entdecke die Region beim gemeinsamen Laufen.</p>
+                    <h3 data-key="benefitHolidayTitle">Im Allgäu Urlaub machst</h3>
+                    <p data-key="benefitHolidayText">Bleib fit & entdecke die Region beim gemeinsamen Laufen.</p>
                 </div>
             </div>
             <!-- New CTA after benefits -->
             <div style="text-align: center; margin-top: 40px;">
-                <a href="https://wa.me/34625573575?text=Hallo%2C%20ich%20interesiere%20mich%20f%C3%BCr%20den%20einzigen%20Plan%20von%20RunWild." target="_blank" class="hero-cta-button">Jetzt beitreten!</a>
+                <a href="https://wa.me/34625573575?text=Hallo%2C%20ich%20interesiere%20mich%20f%C3%BCr%20den%20einzigen%20Plan%20von%20RunWild." target="_blank" class="hero-cta-button" data-key="forWhomCta">Jetzt beitreten!</a>
             </div>
         </div>
 
         <!-- Section: Mehr als nur Laufen (Social Activities) -->
         <div class="section">
-            <h2 class="section-heading">Mehr als nur Laufen – Unsere Events!</h2>
-            <p class="section-text">
+            <h2 class="section-heading" data-key="eventsHeading">Mehr als nur Laufen – Unsere Events!</h2>
+            <p class="section-text" data-key="eventsIntro">
                 Neben dem Sport pflegen wir eine lebendige Gemeinschaft mit gemeinsamen Aktivitäten.
             </p>
             <div class="activities-grid">
                 <div class="activity-card">
                     <div class="icon">☕</div>
-                    <h3>Lauf-Frühstücke</h3>
-                    <p>Zum Auftanken und Plaudern nach dem Lauf.</p>
+                    <h3 data-key="activityBreakfastTitle">Lauf-Frühstücke</h3>
+                    <p data-key="activityBreakfastText">Zum Auftanken und Plaudern nach dem Lauf.</p>
                 </div>
                 <div class="activity-card">
                     <div class="icon">🌳</div>
-                    <h3>Natur-Picknicks</h3>
-                    <p>Entspannung in der Natur nach einem schönen Lauf.</p>
+                    <h3 data-key="activityPicnicTitle">Natur-Picknicks</h3>
+                    <p data-key="activityPicnicText">Entspannung in der Natur nach einem schönen Lauf.</p>
                 </div>
                 <div class="activity-card">
                     <div class="icon">🍻</div> <!-- Changed emoji to beer mugs -->
-                    <h3>Brauerei-Besuche</h3>
-                    <p>Feiere Erfolge bei lokalen Brauereien.</p>
+                    <h3 data-key="activityBreweryTitle">Brauerei-Besuche</h3>
+                    <p data-key="activityBreweryText">Feiere Erfolge bei lokalen Brauereien.</p>
                 </div>
             </div>
             <!-- New CTA after activities -->
             <div style="text-align: center; margin-top: 40px;">
-                <a href="https://wa.me/34625573575?text=Hallo%2C%20ich%20interesiere%20mich%20f%C3%BCr%20den%20einzigen%20Plan%20von%20RunWild." target="_blank" class="hero-cta-button">Jetzt beitreten!</a>
+                <a href="https://wa.me/34625573575?text=Hallo%2C%20ich%20interesiere%20mich%20f%C3%BCr%20den%20einzigen%20Plan%20von%20RunWild." target="_blank" class="hero-cta-button" data-key="eventsCta">Jetzt beitreten!</a>
             </div>
         </div>
 
         <!-- Section: Unsere Pläne -->
         <div class="section" id="plans">
-            <h2 class="section-heading">Unsere Mitgliedschaften & Pläne</h2>
+            <h2 class="section-heading" data-key="plansHeading">Unsere Mitgliedschaften & Pläne</h2>
             <div class="plans-grid">
                 <!-- Single Plan: Einziger Plan -->
                 <div class="plan-card highlight">
-                    <h3>🔥 Dein RunWild Plan</h3>
-                    <p class="price">€30<span>/Monat</span></p>
-                    <p class="plan-description">
+                    <h3 data-key="planTitle">🔥 Dein RunWild Plan</h3>
+                    <p class="price">€30<span data-key="planPricePer">/Monat</span></p>
+                    <p class="plan-description" data-key="planDescription">
                         Eine Gemeinschaft, die dich auf deinem Weg begleitet: Spaß haben, dich verbessern und neue Freundschaften schließen.
                     </p>
-                    <h4>✅ Das ist dabei:</h4>
+                    <h4 data-key="planIncludesTitle">✅ Das ist dabei:</h4>
                     <ul>
-                        <li><i class="fas fa-check-circle"></i> WhatsApp-Gruppe & tägliche Motivation</li>
-                        <li><i class="fas fa-check-circle"></i> Monatlicher Trainingskalender & Challenges</li>
-                        <li><i class="fas fa-check-circle"></i> Jährliche Rennplanung & Support</li>
-                        <li><i class="fas fa-check-circle"></i> WhatsApp-Support</li> <!-- Changed from "24h WhatsApp-Support" -->
-                        <li><i class="fas fa-check-circle"></i> Willkommens-T-Shirt</li>
+                        <li><i class="fas fa-check-circle"></i> <span data-key="planFeature1">WhatsApp-Gruppe & tägliche Motivation</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span data-key="planFeature2">Monatlicher Trainingskalender & Challenges</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span data-key="planFeature3">Jährliche Rennplanung & Support</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span data-key="planFeature4">WhatsApp-Support</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span data-key="planFeature5">Willkommens-T-Shirt</span></li>
                     </ul>
-                    <a href="https://wa.me/34625573575?text=Hallo%2C%20ich%20interesiere%20mich%20f%C3%BCr%20den%20einzigen%20Plan%20von%20RunWild." target="_blank" class="plan-button">Jetzt beitreten</a>
-                    <p class="plan-why-pay">
+                    <a href="https://wa.me/34625573575?text=Hallo%2C%20ich%20interesiere%20mich%20f%C3%BCr%20den%20einzigen%20Plan%20von%20RunWild." target="_blank" class="plan-button" data-key="planCta">Jetzt beitreten</a>
+                    <p class="plan-why-pay" data-key="planWhyPay">
                         🧡 Deine Beiträge ermöglichen das Wachstum des Clubs & tolle Events!
                     </p>
                 </div>
@@ -1036,27 +1125,27 @@
 
         <!-- Contact Section -->
         <div class="section contact-section" id="contact">
-            <h2 class="section-heading">Fragen? Kontaktiere uns!</h2>
+            <h2 class="section-heading" data-key="contactHeading">Fragen? Kontaktiere uns!</h2>
             <div class="contact-info-items">
                 <a href="https://wa.me/34625573575" target="_blank" class="contact-item">
                     <div class="icon"><i class="fab fa-whatsapp whatsapp-icon"></i></div>
-                    <span>Álvaro: +34 625573575</span>
+                    <span data-key="contactWhatsapp">Álvaro: +34 625573575</span>
                 </a>
                 <div class="contact-item">
                     <div class="icon"><i class="fas fa-map-marker-alt location-icon"></i></div>
-                    <span>87629, Füssen</span>
+                    <span data-key="contactLocation">87629, Füssen</span>
                 </div>
             </div>
-            <p class="section-text" style="margin-top: 30px;">
+            <p class="section-text" style="margin-top: 30px;" data-key="contactText">
                 Fragen? Schreib uns eine WhatsApp!
             </p>
-            <a href="https://wa.me/34625573575?text=Hallo%2C%20ich%20interesiere%20mich%20f%C3%BCr%20den%20einzigen%20Plan%20von%20RunWild." target="_blank" class="hero-cta-button" style="margin-top: 20px;">Jetzt beitreten!</a>
+            <a href="https://wa.me/34625573575?text=Hallo%2C%20ich%20interesiere%20mich%20f%C3%BCr%20den%20einzigen%20Plan%20von%20RunWild." target="_blank" class="hero-cta-button" style="margin-top: 20px;" data-key="contactCta">Jetzt beitreten!</a>
         </div>
 
     </div>
     <footer>
-        <p>&copy; 2025 RunWild. Alle Rechte vorbehalten.</p>
-        <p>Folge uns auf Social Media! (Links bald verfügbar)</p>
+        <p data-key="footerCopyright">&copy; 2025 RunWild. Alle Rechte vorbehalten.</p>
+        <p data-key="footerSocial">Folge uns auf Social Media! (Links bald verfügbar)</p>
     </footer>
 
     <script>
@@ -1066,29 +1155,242 @@
             const openMenuBtn = document.getElementById('open-menu');
             const closeMenuBtn = document.getElementById('close-menu');
             const menuOverlay = document.getElementById('menu-overlay');
-            const overlayLinks = document.querySelectorAll('#menu-overlay .overlay-menu-list .nav-link'); // Select top-level nav-links
-            const submenuLinks = document.querySelectorAll('#menu-overlay .submenu-link'); // Select submenu-links
+            const overlayLinks = document.querySelectorAll('#menu-overlay .overlay-menu-list .nav-link'); 
+            const submenuLinks = document.querySelectorAll('#menu-overlay .submenu-link'); 
             const hasSubmenuItem = document.querySelector('#menu-overlay .has-submenu');
             const submenu = document.querySelector('#menu-overlay .submenu');
 
+            const languageSwitcher = document.getElementById('language-switcher');
+            const currentLangSpan = document.getElementById('current-lang');
+            const languageDropdown = languageSwitcher.querySelector('.language-dropdown');
+
+            // --- Translations Object ---
+            const translations = {
+                de: {
+                    pageTitle: 'RunWild – Dein Laufclub in Füssen',
+                    menuHome: 'Startseite',
+                    menuForWhom: 'Für wen ist RunWild?',
+                    submenuBeginners: 'Anfänger',
+                    submenuLittleTime: 'Wenig Zeit',
+                    submenuCompany: 'Gesellschaft',
+                    submenuNewPaths: 'Neue Wege',
+                    submenuRacePrep: 'Rennen',
+                    submenuHoliday: 'Urlaub',
+                    menuOurPlans: 'Unsere Pläne',
+                    menuContact: 'Kontakt',
+                    menuButtonText: 'Menü',
+                    heroTitle: 'RunWild Füssen',
+                    heroTagline: 'Erlebe die Freiheit des Laufens!',
+                    heroIntro: 'Dein Laufclub in Füssen: Gemeinschaft, Natur und Bewegung für alle.',
+                    heroCta: 'Jetzt beitreten!',
+                    forWhomHeading: 'RunWild ist für dich, wenn du...',
+                    benefitBeginnersTitle: 'Anfänger bist',
+                    benefitBeginnersText: 'Lerne entspannt mit uns laufen, Schritt für Schritt.',
+                    benefitLittleTimeTitle: 'Wenig Zeit hast',
+                    benefitLittleTimeText: 'Finde flexible Laufgruppen, die in deinen Alltag passen.',
+                    benefitCompanyTitle: 'Gesellschaft suchst',
+                    benefitCompanyText: 'Laufe mit Gleichgesinnten & knüpfe neue Freundschaften.',
+                    benefitNewPathsTitle: 'Neue Wege entdecken willst',
+                    benefitNewPathsText: 'Erkunde Füssens Natur auf abwechslungsreichen Routen.',
+                    benefitRacePrepTitle: 'Dich auf ein Rennen vorbereitest',
+                    benefitRacePrepText: 'Wir unterstützen dich gezielt für dein nächstes Ziel.',
+                    benefitHolidayTitle: 'Im Allgäu Urlaub machst',
+                    benefitHolidayText: 'Bleib fit & entdecke die Region beim gemeinsamen Laufen.',
+                    forWhomCta: 'Jetzt beitreten!',
+                    eventsHeading: 'Mehr als nur Laufen – Unsere Events!',
+                    eventsIntro: 'Neben dem Sport pflegen wir eine lebendige Gemeinschaft mit gemeinsamen Aktivitäten.',
+                    activityBreakfastTitle: 'Lauf-Frühstücke',
+                    activityBreakfastText: 'Zum Auftanken und Plaudern nach dem Lauf.',
+                    activityPicnicTitle: 'Natur-Picknicks',
+                    activityPicnicText: 'Entspannung in der Natur nach einem schönen Lauf.',
+                    activityBreweryTitle: 'Brauerei-Besuche',
+                    activityBreweryText: 'Feiere Erfolge bei lokalen Brauereien.',
+                    eventsCta: 'Jetzt beitreten!',
+                    plansHeading: 'Unsere Mitgliedschaften & Pläne',
+                    planTitle: '🔥 Dein RunWild Plan',
+                    // planPrice: '€30', // This key is no longer needed as €30 is static in HTML
+                    planPricePer: '/Monat',
+                    planDescription: 'Eine Gemeinschaft, die dich auf deinem Weg begleitet: Spaß haben, dich verbessern und neue Freundschaften schließen.',
+                    planIncludesTitle: '✅ Das ist dabei:',
+                    planFeature1: 'WhatsApp-Gruppe & tägliche Motivation',
+                    planFeature2: 'Monatlicher Trainingskalender & Challenges',
+                    planFeature3: 'Jährliche Rennplanung & Support',
+                    planFeature4: 'WhatsApp-Support',
+                    planFeature5: 'Willkommens-T-Shirt',
+                    planCta: 'Jetzt beitreten',
+                    planWhyPay: '🧡 Deine Beiträge ermöglichen das Wachstum des Clubs & tolle Events!',
+                    contactHeading: 'Fragen? Kontaktiere uns!',
+                    contactWhatsapp: 'Álvaro: +34 625573575',
+                    contactLocation: '87629, Füssen',
+                    contactText: 'Fragen? Schreib uns eine WhatsApp!',
+                    contactCta: 'Jetzt beitreten!',
+                    footerCopyright: '&copy; 2025 RunWild. Alle Rechte vorbehalten.',
+                    footerSocial: 'Folge uns auf Social Media! (Links bald verfügbar)'
+                },
+                en: {
+                    pageTitle: 'RunWild – Your Running Club in Füssen',
+                    menuHome: 'Home',
+                    menuForWhom: 'Who is RunWild for?',
+                    submenuBeginners: 'Beginners',
+                    submenuLittleTime: 'Little Time',
+                    submenuCompany: 'Company',
+                    submenuNewPaths: 'New Paths',
+                    submenuRacePrep: 'Race Prep',
+                    submenuHoliday: 'Holiday',
+                    menuOurPlans: 'Our Plans',
+                    menuContact: 'Contact',
+                    menuButtonText: 'Menu',
+                    heroTitle: 'RunWild Füssen',
+                    heroTagline: 'Experience the Freedom of Running!',
+                    heroIntro: 'Your running club in Füssen: community, nature, and movement for everyone.',
+                    heroCta: 'Join Now!',
+                    forWhomHeading: 'RunWild is for you if you...',
+                    benefitBeginnersTitle: 'Are a Beginner',
+                    benefitBeginnersText: 'Learn to run with us at your own pace, step by step.',
+                    benefitLittleTimeTitle: 'Have Little Time',
+                    benefitLittleTimeText: 'Find flexible running groups that fit your daily routine.',
+                    benefitCompanyTitle: 'Are Looking for Company',
+                    benefitCompanyText: 'Run with like-minded people & make new friends.',
+                    benefitNewPathsTitle: 'Want to Discover New Paths',
+                    benefitNewPathsText: 'Explore Füssen\'s nature on varied routes.',
+                    benefitRacePrepTitle: 'Are Preparing for a Race',
+                    benefitRacePrepText: 'We provide targeted support for your next goal.',
+                    benefitHolidayTitle: 'Are on Holiday in Allgäu',
+                    benefitHolidayText: 'Stay fit & discover the region while running together.',
+                    forWhomCta: 'Join Now!',
+                    eventsHeading: 'More Than Just Running – Our Events!',
+                    eventsIntro: 'Besides sports, we foster a lively community with shared activities.',
+                    activityBreakfastTitle: 'Run-Breakfasts',
+                    activityBreakfastText: 'To refuel and chat after the run.',
+                    activityPicnicTitle: 'Nature Picnics',
+                    activityPicnicText: 'Relax in nature after a beautiful run.',
+                    activityBreweryTitle: 'Brewery Visits',
+                    activityBreweryText: 'Celebrate successes at local breweries.',
+                    eventsCta: 'Join Now!',
+                    plansHeading: 'Our Memberships & Plans',
+                    planTitle: '🔥 Your RunWild Plan',
+                    // planPrice: '€30', // This key is no longer needed
+                    planPricePer: '/Month',
+                    planDescription: 'A community that accompanies you on your journey: have fun, improve yourself, and make new friends.',
+                    planIncludesTitle: '✅ This includes:',
+                    planFeature1: 'WhatsApp group & daily motivation',
+                    planFeature2: 'Monthly training calendar & challenges',
+                    planFeature3: 'Annual race planning & support',
+                    planFeature4: 'WhatsApp Support',
+                    planFeature5: 'Welcome T-Shirt',
+                    planCta: 'Join Now',
+                    planWhyPay: '🧡 Your contributions enable the club\'s growth & great events!',
+                    contactHeading: 'Questions? Contact Us!',
+                    contactWhatsapp: 'Álvaro: +34 625573575',
+                    contactLocation: '87629, Füssen',
+                    contactText: 'Questions? Send us a WhatsApp!',
+                    contactCta: 'Join Now!',
+                    footerCopyright: '&copy; 2025 RunWild. All rights reserved.',
+                    footerSocial: 'Follow us on Social Media! (Links coming soon)'
+                },
+                es: {
+                    pageTitle: 'RunWild – Tu Club de Corredores en Füssen',
+                    menuHome: 'Inicio',
+                    menuForWhom: '¿Para quién es RunWild?',
+                    submenuBeginners: 'Principiantes',
+                    submenuLittleTime: 'Poco Tiempo',
+                    submenuCompany: 'Compañía',
+                    submenuNewPaths: 'Nuevos Caminos',
+                    submenuRacePrep: 'Preparación de Carreras',
+                    submenuHoliday: 'Vacaciones',
+                    menuOurPlans: 'Nuestros Planes',
+                    menuContact: 'Contacto',
+                    menuButtonText: 'Menú',
+                    heroTitle: 'RunWild Füssen',
+                    heroTagline: '¡Experimenta la Libertad de Correr!',
+                    heroIntro: 'Tu club de corredores en Füssen: comunidad, naturaleza y movimiento para todos.',
+                    heroCta: '¡Únete ahora!',
+                    forWhomHeading: 'RunWild es para ti si...',
+                    benefitBeginnersTitle: 'Eres principiante',
+                    benefitBeginnersText: 'Aprende a correr con nosotros a tu ritmo, paso a paso.',
+                    benefitLittleTimeTitle: 'Tienes poco tiempo',
+                    benefitLittleTimeText: 'Encuentra grupos de carrera flexibles que se adapten a tu día a día.',
+                    benefitCompanyTitle: 'Buscas compañía',
+                    benefitCompanyText: 'Corre con personas afines y haz nuevas amistades.',
+                    benefitNewPathsTitle: 'Quieres descubrir nuevos caminos',
+                    benefitNewPathsText: 'Explora la naturaleza de Füssen en rutas variadas.',
+                    benefitRacePrepTitle: 'Te preparas para una carrera',
+                    benefitRacePrepText: 'Te apoyamos específicamente para tu próximo objetivo.',
+                    benefitHolidayTitle: 'Estás de vacaciones en Allgäu',
+                    benefitHolidayText: 'Mantente en forma y descubre la región corriendo con nosotros.',
+                    forWhomCta: '¡Únete ahora!',
+                    eventsHeading: '¡Más que solo correr – Nuestros Eventos!',
+                    eventsIntro: 'Además del deporte, cultivamos una comunidad vibrante con actividades conjuntas.',
+                    activityBreakfastTitle: 'Desayunos de Corredores',
+                    activityBreakfastText: 'Para recargar energías y charlar después de la carrera.',
+                    activityPicnicTitle: 'Picnics en la Naturaleza',
+                    activityPicnicText: 'Relájate en la naturaleza después de una bonita carrera.',
+                    activityBreweryTitle: 'Visitas a Cervecerías',
+                    activityBreweryText: 'Celebra los éxitos en cervecerías locales.',
+                    eventsCta: '¡Únete ahora!',
+                    plansHeading: 'Nuestras Membresías y Planes',
+                    planTitle: '🔥 Tu Plan RunWild',
+                    // planPrice: '€30', // This key is no longer needed
+                    planPricePer: '/Mes',
+                    planDescription: 'Una comunidad que te acompaña en tu camino: diviértete, mejora y haz nuevos amigos.',
+                    planIncludesTitle: '✅ Esto incluye:',
+                    planFeature1: 'Grupo de WhatsApp y motivación diaria',
+                    planFeature2: 'Calendario de entrenamiento mensual y desafíos',
+                    planFeature3: 'Planificación anual de carreras y soporte',
+                    planFeature4: 'Soporte por WhatsApp',
+                    planFeature5: 'Camiseta de bienvenida',
+                    planCta: 'Únete ahora',
+                    planWhyPay: '🧡 ¡Tus contribuciones permiten el crecimiento del club y eventos increíbles!',
+                    contactHeading: '¿Preguntas? ¡Contáctanos!',
+                    contactWhatsapp: 'Álvaro: +34 625573575',
+                    contactLocation: '87629, Füssen',
+                    contactText: '¿Preguntas? ¡Envíanos un WhatsApp!',
+                    contactCta: '¡Únete ahora!',
+                    footerCopyright: '&copy; 2025 RunWild. Todos los derechos reservados.',
+                    footerSocial: '¡Síguenos en redes sociales! (Enlaces disponibles pronto)'
+                }
+            };
+
+            // Function to set the language
+            const setLanguage = (lang) => {
+                document.querySelectorAll('[data-key]').forEach(element => {
+                    const key = element.getAttribute('data-key');
+                    if (translations[lang] && translations[lang][key]) {
+                        // Special handling for elements like span inside price or li
+                        // Ensure element.parentElement exists before checking its classList
+                        if (element.tagName === 'SPAN' && element.parentElement && element.parentElement.classList.contains('price')) {
+                            element.textContent = translations[lang][key]; // For '/Month', etc.
+                        } else {
+                            // Default update for other elements with data-key
+                            element.textContent = translations[lang][key];
+                        }
+                    }
+                });
+                // Update specific elements not covered by data-key
+                document.querySelector('title').textContent = translations[lang].pageTitle;
+                currentLangSpan.textContent = lang === 'de' ? 'Deutsch' : lang === 'en' ? 'English' : 'Español';
+                localStorage.setItem('runwild_lang', lang); // Store language preference
+            };
+
+            // Get preferred language from localStorage or default to German
+            const initialLang = localStorage.getItem('runwild_lang') || 'de';
+            setLanguage(initialLang); // Set initial language on load
 
             // --- Splash Screen Transition (3D Zoom) ---
-            // Start the logo animation after a short delay to allow initial render
             setTimeout(() => {
-                splashScreen.classList.add('loaded'); // Add class to trigger the 3D zoom
+                splashScreen.classList.add('loaded');
             }, 100); 
 
-            // Fade out the splash screen after the zoom animation completes
             setTimeout(() => {
                 splashScreen.classList.add('hidden');
                 splashScreen.addEventListener('transitionend', () => {
                     splashScreen.remove();
                 }, { once: true });
-            }, 1600); // Total time: 100ms delay + 1.5s transform transition + 1s fade out
+            }, 1600);
 
             // --- Scroll-based Navbar Shrink ---
             const mainNav = document.getElementById('main-nav');
-            const scrollThreshold = 50; // Pixels scrolled before shrinking
+            const scrollThreshold = 50;
 
             window.addEventListener('scroll', () => {
                 if (window.scrollY > scrollThreshold) {
@@ -1097,36 +1399,27 @@
                     mainNav.classList.remove('nav-scrolled');
                 }
             });
-            // --- End Scroll-based Navbar Shrink ---
 
             // --- Menu Overlay Functionality ---
             openMenuBtn.addEventListener('click', () => {
-                console.log('Open menu button clicked!'); // Debugging log
                 menuOverlay.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Prevent scrolling while overlay is open
-                console.log('menuOverlay active class added:', menuOverlay.classList.contains('active')); // Debugging log
-
-                // Temporary visual feedback for the button
-                openMenuBtn.style.backgroundColor = '#17a2b8'; // Cyan color on click
+                document.body.style.overflow = 'hidden';
+                openMenuBtn.style.backgroundColor = '#17a2b8';
                 setTimeout(() => {
-                    openMenuBtn.style.backgroundColor = ''; // Revert after a short delay
+                    openMenuBtn.style.backgroundColor = '';
                 }, 300);
             });
 
             closeMenuBtn.addEventListener('click', () => {
-                console.log('Close menu button clicked!'); // Debugging log
                 menuOverlay.classList.remove('active');
-                document.body.style.overflow = ''; // Restore scrolling
-                // Close any open submenus when main menu closes
+                document.body.style.overflow = '';
                 if (hasSubmenuItem) {
                     hasSubmenuItem.classList.remove('active-submenu');
                 }
-                console.log('menuOverlay active class removed:', menuOverlay.classList.contains('active')); // Debugging log
             });
 
-            // Handle main nav links (non-submenu parents)
             overlayLinks.forEach(link => {
-                if (!link.parentElement.classList.contains('has-submenu')) { // Only attach if not a submenu parent
+                if (!link.parentElement.classList.contains('has-submenu')) {
                     link.addEventListener('click', () => {
                         menuOverlay.classList.remove('active');
                         document.body.style.overflow = '';
@@ -1134,66 +1427,75 @@
                 }
             });
 
-            // Handle submenu links
             submenuLinks.forEach(link => {
                 link.addEventListener('click', (event) => {
-                    event.preventDefault(); // Prevent default behavior to allow custom scroll (if needed) or simply let browser handle smooth scroll
-                    const targetId = link.dataset.targetId; // Get the ID of the section to scroll to
+                    event.preventDefault(); 
+                    const targetId = link.dataset.targetId;
 
                     menuOverlay.classList.remove('active');
                     document.body.style.overflow = '';
 
-                    // Scroll to the specific section within #for-whom
                     const targetElement = document.getElementById(targetId);
                     if (targetElement) {
                         targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     } else {
-                        // If specific ID not found, scroll to the main #for-whom section
                         document.getElementById('for-whom').scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
                 });
             });
 
-            // Toggle submenu visibility for 'has-submenu' item
             if (hasSubmenuItem) {
                 const submenuParentLink = hasSubmenuItem.querySelector('.nav-link');
                 submenuParentLink.addEventListener('click', (event) => {
-                    event.preventDefault(); // Prevent main link navigation
-                    // Toggle 'active-submenu' class on parent LI
+                    event.preventDefault();
                     hasSubmenuItem.classList.toggle('active-submenu');
                 });
 
-                // Close submenu if clicking outside on mobile (when submenu is expanded)
                 menuOverlay.addEventListener('click', (event) => {
-                    // Check if the click occurred within the hasSubmenuItem itself or its submenu
                     const isClickInsideSubmenuParent = hasSubmenuItem.contains(event.target);
-                    // Check if the click was directly on the submenu link or within the submenu itself
-                    const isClickOnSubmenuLink = submenuParentLink === event.target || (submenu && submenu.contains(event.target)); // Added submenu check for null
+                    const isClickOnSubmenuLink = submenuParentLink === event.target || (submenu && submenu.contains(event.target));
 
-                    // Only close if active and click is outside the submenu parent and its submenu
                     if (hasSubmenuItem.classList.contains('active-submenu') && !isClickInsideSubmenuParent && !isClickOnSubmenuLink) {
                         hasSubmenuItem.classList.remove('active-submenu');
                     }
                 });
             }
 
-            // Close menu if clicking outside the menu content (on the overlay background)
             menuOverlay.addEventListener('click', (event) => {
-                // Ensure it's not a click on the menu content itself
                 if (event.target === menuOverlay) {
-                    console.log('Clicked outside menu overlay, closing.'); // Debugging log
                     menuOverlay.classList.remove('active');
                     document.body.style.overflow = '';
                     if (hasSubmenuItem) {
-                        hasSubmenuItem.classList.remove('active-submenu'); // Close submenu too
+                        hasSubmenuItem.classList.remove('active-submenu');
                     }
                 }
             });
-            // --- End Menu Overlay Functionality ---
+
+            // --- Language Switcher Functionality ---
+            languageSwitcher.addEventListener('click', (event) => {
+                event.stopPropagation(); // Prevent click from bubbling to document and closing immediately
+                languageSwitcher.classList.toggle('active');
+            });
+
+            languageDropdown.querySelectorAll('li').forEach(item => {
+                item.addEventListener('click', (event) => {
+                    const lang = event.target.getAttribute('data-lang');
+                    setLanguage(lang);
+                    languageSwitcher.classList.remove('active'); // Close dropdown after selection
+                });
+            });
+
+            // Close language dropdown if clicking outside
+            document.addEventListener('click', (event) => {
+                if (!languageSwitcher.contains(event.target)) {
+                    languageSwitcher.classList.remove('active');
+                }
+            });
         });
     </script>
 </body>
 </html>
+
 
 
 
