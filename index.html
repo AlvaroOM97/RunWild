@@ -554,6 +554,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             text-align: left; /* Align text within the card to the left */
+            cursor: pointer; /* Indicate clickable */
         }
         
         .benefit-card:hover {
@@ -779,6 +780,46 @@
             width: 100%;
             max-width: 1000px;
         }
+
+        /* NEW: Styles for detail sections */
+        .benefit-detail-content {
+            background: #f7faff; /* Lighter background for detail */
+            border-radius: 15px;
+            padding: 40px;
+            margin-top: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            text-align: center; /* Center content within detail */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        .benefit-detail-content.hidden {
+            display: none;
+        }
+        
+        .benefit-detail-content.visible {
+            display: block; /* Show when active */
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .benefit-detail-content .section-subheading { /* Reusing h3 style for consistency */
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+
+        .benefit-detail-content .detail-text {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--dark-text);
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
         
         /* Responsive adjustments */
         @media (max-width: 768px) {
@@ -921,6 +962,17 @@
             .language-dropdown {
                 min-width: 100px;
             }
+
+            /* Detail sections on mobile */
+            .benefit-detail-content {
+                padding: 25px;
+            }
+            .benefit-detail-content .section-subheading {
+                font-size: 1.4rem;
+            }
+            .benefit-detail-content .detail-text {
+                font-size: 0.95rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1023,6 +1075,9 @@
         <!-- Section: Para Quién es RunWild? (Combined Benefits) -->
         <div class="section" id="for-whom">
             <h2 class="section-heading" data-key="forWhomHeading">RunWild ist für dich, wenn du...</h2>
+            <p class="section-text" data-key="forWhomIntroText">
+                Wir haben die perfekte Gruppe für deine Bedürfnisse, egal ob du neu anfängst oder deine Grenzen erweitern möchtest. Klicke auf eine Karte oder wähle aus dem Menü, um mehr zu erfahren!
+            </p>
             
             <div class="benefits-grid">
                 <div class="benefit-card" id="Anfanger">
@@ -1060,7 +1115,58 @@
                     <h3 data-key="benefitHolidayTitle">Im Allgäu Urlaub machst</h3>
                     <p data-key="benefitHolidayText">Bleib fit & entdecke die Region beim gemeinsamen Laufen.</p>
                 </div>
+            </div> <!-- Close benefits-grid -->
+
+            <div id="benefit-details-container" style="margin-top: 60px;">
+                <!-- Detail content for Anfanger -->
+                <div id="detail-Anfanger" class="benefit-detail-content hidden">
+                    <h3 class="section-subheading" data-key="benefitBeginnersTitle">Anfänger bist</h3>
+                    <p data-key="benefitBeginnersDetail" class="detail-text">
+                        Egal, ob du noch nie gelaufen bist oder nach einer langen Pause wieder einsteigen möchtest: Unser Anfängerprogramm führt dich behutsam an das Laufen heran. Wir starten mit Geh-Lauf-Intervallen, steigern uns langsam und legen Wert auf die richtige Technik, um Verletzungen vorzubeugen. Du wirst überrascht sein, wie schnell du Fortschritte machst und wie viel Spaß es macht, in der Gruppe zu lernen!
+                    </p>
+                </div>
+
+                <!-- Detail content for WenigZeit -->
+                <div id="detail-WenigZeit" class="benefit-detail-content hidden">
+                    <h3 class="section-subheading" data-key="benefitLittleTimeTitle">Wenig Zeit hast</h3>
+                    <p data-key="benefitLittleTimeDetail" class="detail-text">
+                        Dein Alltag ist vollgepackt? Kein Problem! RunWild bietet flexible Trainingszeiten und kurze, effektive Laufeinheiten, die sich perfekt in deinen Terminkalender integrieren lassen. Auch wenn du nur 30 Minuten Zeit hast, findest du bei uns eine passende Gruppe, die dir hilft, fit zu bleiben, ohne dass dein Leben Kopf steht. Laufen sollte dich entlasten, nicht zusätzlich stressen!
+                    </p>
+                </div>
+
+                <!-- Detail content for Gesellschaft -->
+                <div id="detail-Gesellschaft" class="benefit-detail-content hidden">
+                    <h3 class="section-subheading" data-key="benefitCompanyTitle">Gesellschaft suchst</h3>
+                    <p data-key="benefitCompanyDetail" class="detail-text">
+                        Laufen ist im Team noch schöner! Bei RunWild findest du eine motivierende Gemeinschaft, in der das gemeinsame Erlebnis im Vordergrund steht. Egal ob du neue Freunde suchst, die deine Leidenschaft teilen, oder einfach die soziale Atmosphäre beim Sport genießen möchtest – unsere Gruppenläufe sind der perfekte Ort dafür. Nach dem Training gibt es oft noch Zeit für einen Kaffee oder ein gemütliches Gespräch.
+                    </p>
+                </div>
+
+                <!-- Detail content for NeueWege -->
+                <div id="detail-NeueWege" class="benefit-detail-content hidden">
+                    <h3 class="section-subheading" data-key="benefitNewPathsTitle">Neue Wege entdecken willst</h3>
+                    <p data-key="benefitNewPathsDetail" class="detail-text">
+                        Füssen und das Allgäu bieten unzählige atemberaubende Laufstrecken. Mit RunWild entdeckst du versteckte Pfade, malerische Seenwege und herausfordernde Bergrouten, die du alleine vielleicht nie erkundet hättest. Unsere erfahrenen Gruppenleiter kennen die schönsten Ecken und sorgen dafür, dass jeder Lauf zu einem unvergesslichen Naturerlebnis wird – fernab vom Asphalt.
+                    </p>
+                </div>
+
+                <!-- Detail content for Rennen -->
+                <div id="detail-Rennen" class="benefit-detail-content hidden">
+                    <h3 class="section-subheading" data-key="benefitRacePrepTitle">Dich auf ein Rennen vorbereitest</h3>
+                    <p data-key="benefitRacePrepDetail" class="detail-text">
+                        Du träumst von einem ersten 5k-Rennen, einem Halbmarathon oder sogar einem Marathon? RunWild hilft dir, deine Ziele zu erreichen! Wir bieten strukturierte Trainingspläne, gemeinsame Long Runs und spezifische Einheiten zur Vorbereitung auf verschiedene Distanzen. Unsere erfahrenen Läufer teilen gerne ihr Wissen und motivieren dich, dein volles Potenzial auszuschöpfen. Gemeinsam erreichen wir die Ziellinie!
+                    </p>
+                </div>
+
+                <!-- Detail content for Urlaub -->
+                <div id="detail-Urlaub" class="benefit-detail-content hidden">
+                    <h3 class="section-subheading" data-key="benefitHolidayTitle">Im Allgäu Urlaub machst</h3>
+                    <p data-key="benefitHolidayDetail" class="detail-text">
+                        Du machst Urlaub in Füssen oder der Umgebung und möchtest deine Laufroutine nicht unterbrechen? Oder die Region sportlich erkunden? Schließ dich uns an! Unsere "Urlaubs-Runs" sind eine großartige Möglichkeit, die wunderschöne Allgäuer Landschaft kennenzulernen, fit zu bleiben und dabei nette Leute zu treffen. Kein Stress mit der Streckenplanung, einfach mitlaufen und genießen!
+                    </p>
+                </div>
             </div>
+
             <!-- New CTA after benefits -->
             <div style="text-align: center; margin-top: 40px;">
                 <a href="https://wa.me/34625573575?text=Hallo%2C%20ich%20interesiere%20mich%20f%C3%BCr%20den%20einzigen%20Plan%20von%20RunWild." target="_blank" class="hero-cta-button" data-key="forWhomCta">Jetzt beitreten!</a>
@@ -1164,6 +1270,9 @@
             const currentLangSpan = document.getElementById('current-lang');
             const languageDropdown = languageSwitcher.querySelector('.language-dropdown');
 
+            // New consts for benefit details
+            const benefitDetailContainers = document.querySelectorAll('.benefit-detail-content');
+
             // --- Translations Object ---
             const translations = {
                 de: {
@@ -1184,19 +1293,30 @@
                     heroIntro: 'Dein Laufclub in Füssen: Gemeinschaft, Natur und Bewegung für alle.',
                     heroCta: 'Jetzt beitreten!',
                     forWhomHeading: 'RunWild ist für dich, wenn du...',
+                    forWhomIntroText: 'Wir haben die perfekte Gruppe für deine Bedürfnisse, egal ob du neu anfängst oder deine Grenzen erweitern möchtest. Klicke auf eine Karte oder wähle aus dem Menü, um mehr zu erfahren!',
                     benefitBeginnersTitle: 'Anfänger bist',
                     benefitBeginnersText: 'Lerne entspannt mit uns laufen, Schritt für Schritt.',
+                    benefitBeginnersDetail: 'Egal, ob du noch nie gelaufen bist oder nach einer langen Pause wieder einsteigen möchtest: Unser Anfängerprogramm führt dich behutsam an das Laufen heran. Wir starten mit Geh-Lauf-Intervallen, steigern uns langsam und legen Wert auf die richtige Technik, um Verletzungen vorzubeugen. Du wirst überrascht sein, wie schnell du Fortschritte machst und wie viel Spaß es macht, in der Gruppe zu lernen!',
+                    
                     benefitLittleTimeTitle: 'Wenig Zeit hast',
                     benefitLittleTimeText: 'Finde flexible Laufgruppen, die in deinen Alltag passen.',
+                    benefitLittleTimeDetail: 'Dein Alltag ist vollgepackt? Kein Problem! RunWild bietet flexible Trainingszeiten und kurze, effektive Laufeinheiten, die sich perfekt in deinen Terminkalender integrieren lassen. Auch wenn du nur 30 Minuten Zeit hast, findest du bei uns eine passende Gruppe, die dir hilft, fit zu bleiben, ohne dass dein Leben Kopf steht. Laufen sollte dich entlasten, nicht zusätzlich stressen!',
+
                     benefitCompanyTitle: 'Gesellschaft suchst',
                     benefitCompanyText: 'Laufe mit Gleichgesinnten & knüpfe neue Freundschaften.',
+                    benefitCompanyDetail: 'Laufen ist im Team noch schöner! Bei RunWild findest du eine motivierende Gemeinschaft, in der das gemeinsame Erlebnis im Vordergrund steht. Egal ob du neue Freunde suchst, die deine Leidenschaft teilen, oder einfach die soziale Atmosphäre beim Sport genießen möchtest – unsere Gruppenläufe sind der perfekte Ort dafür. Nach dem Training gibt es oft noch Zeit für einen Kaffee oder ein gemütliches Gespräch.',
+
                     benefitNewPathsTitle: 'Neue Wege entdecken willst',
                     benefitNewPathsText: 'Erkunde Füssens Natur auf abwechslungsreichen Routen.',
+                    benefitNewPathsDetail: 'Füssen und das Allgäu bieten unzählige atemberaubende Laufstrecken. Mit RunWild entdeckst du versteckte Pfade, malerische Seenwege und herausfordernde Bergrouten, die du alleine vielleicht nie erkundet hättest. Unsere erfahrenen Gruppenleiter kennen die schönsten Ecken und sorgen dafür, dass jeder Lauf zu einem unvergesslichen Naturerlebnis wird – fernab vom Asphalt.',
+
                     benefitRacePrepTitle: 'Dich auf ein Rennen vorbereitest',
                     benefitRacePrepText: 'Wir unterstützen dich gezielt für dein nächstes Ziel.',
+                    benefitRacePrepDetail: 'Du träumst von einem ersten 5k-Rennen, einem Halbmarathon oder sogar einem Marathon? RunWild hilft dir, deine Ziele zu erreichen! Wir bieten strukturierte Trainingspläne, gemeinsame Long Runs und spezifische Einheiten zur Vorbereitung auf verschiedene Distanzen. Unsere erfahrenen Läufer teilen gerne ihr Wissen und motivieren dich, dein volles Potenzial auszuschöpfen. Gemeinsam erreichen wir die Ziellinie!',
+
                     benefitHolidayTitle: 'Im Allgäu Urlaub machst',
                     benefitHolidayText: 'Bleib fit & entdecke die Region beim gemeinsamen Laufen.',
-                    forWhomCta: 'Jetzt beitreten!',
+                    benefitHolidayDetail: 'Du machst Urlaub in Füssen oder der Umgebung und möchtest deine Laufroutine nicht unterbrechen? Oder die Region sportlich erkunden? Schließ dich uns an! Unsere "Urlaubs-Runs" sind eine großartige Möglichkeit, die wunderschöne Allgäuer Landschaft kennenzulernen, fit zu bleiben und dabei nette Leute zu treffen. Kein Stress mit der Streckenplanung, einfach mitlaufen und genießen!',
                     eventsHeading: 'Mehr als nur Laufen – Unsere Events!',
                     eventsIntro: 'Neben dem Sport pflegen wir eine lebendige Gemeinschaft mit gemeinsamen Aktivitäten.',
                     activityBreakfastTitle: 'Lauf-Frühstücke',
@@ -1245,19 +1365,30 @@
                     heroIntro: 'Your running club in Füssen: community, nature, and movement for everyone.',
                     heroCta: 'Join Now!',
                     forWhomHeading: 'RunWild is for you if you...',
+                    forWhomIntroText: 'We have the perfect group for your needs, whether you\'re just starting or want to push your limits. Click on a card or select from the menu to learn more!',
                     benefitBeginnersTitle: 'Are a Beginner',
                     benefitBeginnersText: 'Learn to run with us at your own pace, step by step.',
+                    benefitBeginnersDetail: 'Whether you\'ve never run before or want to get back into it after a long break: Our beginner program gently introduces you to running. We start with walk-run intervals, slowly increase our pace, and focus on proper technique to prevent injuries. You\'ll be surprised how quickly you make progress and how much fun it is to learn in a group!',
+
                     benefitLittleTimeTitle: 'Have Little Time',
                     benefitLittleTimeText: 'Find flexible running groups that fit your daily routine.',
+                    benefitLittleTimeDetail: 'Is your daily life packed? No problem! RunWild offers flexible training times and short, effective running sessions that perfectly integrate into your schedule. Even if you only have 30 minutes, you\'ll find a suitable group with us that helps you stay fit without turning your life upside down. Running should relieve stress, not add to it!',
+
                     benefitCompanyTitle: 'Are Looking for Company',
                     benefitCompanyText: 'Run with like-minded people & make new friends.',
+                    benefitCompanyDetail: 'Running is even better as a team! At RunWild, you\'ll find a motivating community where the shared experience is paramount. Whether you\'re looking for new friends who share your passion or simply want to enjoy the social atmosphere during sports – our group runs are the perfect place for it. After training, there\'s often time for a coffee or a relaxed chat.',
+
                     benefitNewPathsTitle: 'Want to Discover New Paths',
                     benefitNewPathsText: 'Explore Füssen\'s nature on varied routes.',
+                    benefitNewPathsDetail: 'Füssen and the Allgäu region offer countless breathtaking running routes. With RunWild, you\'ll discover hidden trails, picturesque lake paths, and challenging mountain routes that you might never have explored alone. Our experienced group leaders know the most beautiful spots and ensure that every run becomes an unforgettable nature experience – far from the asphalt.',
+
                     benefitRacePrepTitle: 'Are Preparing for a Race',
                     benefitRacePrepText: 'We provide targeted support for your next goal.',
+                    benefitRacePrepDetail: 'Dreaming of a first 5k race, a half marathon, or even a marathon? RunWild helps you achieve your goals! We offer structured training plans, joint long runs, and specific sessions to prepare for various distances. Our experienced runners are happy to share their knowledge and motivate you to unleash your full potential. Together, we\'ll reach the finish line!',
+
                     benefitHolidayTitle: 'Are on Holiday in Allgäu',
                     benefitHolidayText: 'Stay fit & discover the region while running together.',
-                    forWhomCta: 'Join Now!',
+                    benefitHolidayDetail: 'Are you on holiday in Füssen or the surrounding area and don\'t want to interrupt your running routine? Or want to explore the region actively? Join us! Our "holiday runs" are a great way to get to know the beautiful Allgäu landscape, stay fit, and meet nice people. No stress with route planning, just run along and enjoy!',
                     eventsHeading: 'More Than Just Running – Our Events!',
                     eventsIntro: 'Besides sports, we foster a lively community with shared activities.',
                     activityBreakfastTitle: 'Run-Breakfasts',
@@ -1306,19 +1437,30 @@
                     heroIntro: 'Tu club de corredores en Füssen: comunidad, naturaleza y movimiento para todos.',
                     heroCta: '¡Únete ahora!',
                     forWhomHeading: 'RunWild es para ti si...',
+                    forWhomIntroText: 'Tenemos el grupo perfecto para tus necesidades, ya sea que estés empezando o quieras superar tus límites. ¡Haz clic en una tarjeta o selecciona desde el menú para saber más!',
                     benefitBeginnersTitle: 'Eres principiante',
                     benefitBeginnersText: 'Aprende a correr con nosotros a tu ritmo, paso a paso.',
+                    benefitBeginnersDetail: 'No importa si nunca has corrido o quieres retomar después de mucho tiempo: nuestro programa para principiantes te introduce suavemente en el running. Empezamos con intervalos de caminar-correr, aumentamos el ritmo lentamente y nos enfocamos en la técnica correcta para prevenir lesiones. ¡Te sorprenderá lo rápido que progresas y lo divertido que es aprender en grupo!',
+
                     benefitLittleTimeTitle: 'Tienes poco tiempo',
                     benefitLittleTimeText: 'Encuentra grupos de carrera flexibles que se adapten a tu día a día.',
+                    benefitLittleTimeDetail: '¿Tu día a día está muy ocupado? ¡No hay problema! RunWild ofrece horarios de entrenamiento flexibles y sesiones de carrera cortas y efectivas que se integran perfectamente en tu agenda. Aunque solo tengas 30 minutos, con nosotros encontrarás un grupo adecuado que te ayudará a mantenerte en forma sin que tu vida se vea alterada. ¡Correr debería aliviar el estrés, no añadirlo!',
+
                     benefitCompanyTitle: 'Buscas compañía',
                     benefitCompanyText: 'Corre con personas afines y haz nuevas amistades.',
+                    benefitCompanyDetail: '¡Correr es aún mejor en equipo! En RunWild encontrarás una comunidad motivadora donde la experiencia compartida es lo principal. Ya sea que busques nuevos amigos que compartan tu pasión o simplemente quieras disfrutar del ambiente social al hacer deporte, nuestros entrenamientos en grupo son el lugar perfecto para ello. Después del entrenamiento, a menudo hay tiempo para un café o una conversación relajada.',
+
                     benefitNewPathsTitle: 'Quieres descubrir nuevos caminos',
                     benefitNewPathsText: 'Explora la naturaleza de Füssen en rutas variadas.',
+                    benefitNewPathsDetail: 'Füssen y la región de Allgäu ofrecen innumerables rutas de running impresionantes. Con RunWild, descubrirás senderos ocultos, pintorescos caminos junto a lagos y desafiantes rutas de montaña que quizás nunca hubieras explorado solo. Nuestros experimentados líderes de grupo conocen los rincones más bonitos y se aseguran de que cada carrera se convierta en una experiencia inolvidable en la naturaleza, lejos del asfalto.',
+
                     benefitRacePrepTitle: 'Te preparas para una carrera',
                     benefitRacePrepText: 'Te apoyamos específicamente para tu próximo objetivo.',
+                    benefitRacePrepDetail: '¿Sueñas con tu primera carrera de 5 km, una media maratón o incluso una maratón? ¡RunWild te ayuda a alcanzar tus metas! Ofrecemos planes de entrenamiento estructurados, salidas largas conjuntas y sesiones específicas para prepararte para diferentes distancias. Nuestros corredores experimentados comparten con gusto sus conocimientos y te motivan a alcanzar su máximo potencial. ¡Juntos llegaremos a la meta!',
+
                     benefitHolidayTitle: 'Estás de vacaciones en Allgäu',
                     benefitHolidayText: 'Mantente en forma y descubre la región corriendo con nosotros.',
-                    forWhomCta: '¡Únete ahora!',
+                    benefitHolidayDetail: '¿Estás de vacaciones en Füssen o sus alrededores y no quieres interrumpir tu rutina de carrera? ¿O quieres explorar activamente la región? ¡Únete a nosotros! Nuestras "carreras de vacaciones" son una excelente manera de conocer el hermoso paisaje de Allgäu, mantenerte en forma y, al mismo tiempo, conocer gente agradable. Sin estrés con la planificación de la ruta, ¡simplemente corre y disfruta!',
                     eventsHeading: '¡Más que solo correr – Nuestros Eventos!',
                     eventsIntro: 'Además del deporte, cultivamos una comunidad vibrante con actividades conjuntas.',
                     activityBreakfastTitle: 'Desayunos de Corredores',
@@ -1370,6 +1512,23 @@
                 document.querySelector('title').textContent = translations[lang].pageTitle;
                 currentLangSpan.textContent = lang === 'de' ? 'Deutsch' : lang === 'en' ? 'English' : 'Español';
                 localStorage.setItem('runwild_lang', lang); // Store language preference
+
+                // Update content of detail sections when language changes
+                benefitDetailContainers.forEach(detailDiv => {
+                    const detailId = detailDiv.id.replace('detail-', ''); // e.g., "Anfanger"
+                    const detailTitleKey = `benefit${detailId}Title`; // e.g., "benefitAnfangerTitle"
+                    const detailTextKey = `benefit${detailId}Detail`; // e.g., "benefitAnfangerDetail"
+
+                    const titleElement = detailDiv.querySelector('.section-subheading');
+                    const textElement = detailDiv.querySelector('.detail-text');
+
+                    if (titleElement && translations[lang][detailTitleKey]) {
+                        titleElement.textContent = translations[lang][detailTitleKey];
+                    }
+                    if (textElement && translations[lang][detailTextKey]) {
+                        textElement.textContent = translations[lang][detailTextKey];
+                    }
+                });
             };
 
             // Get preferred language from localStorage or default to German
@@ -1419,7 +1578,9 @@
             });
 
             overlayLinks.forEach(link => {
-                if (!link.parentElement.classList.contains('has-submenu')) {
+                // Modified: Only for links that are NOT submenu parents, or are direct section links.
+                // Submenu links handled separately below.
+                if (!link.parentElement.classList.contains('has-submenu') && link.getAttribute('href').startsWith('#')) {
                     link.addEventListener('click', () => {
                         menuOverlay.classList.remove('active');
                         document.body.style.overflow = '';
@@ -1427,20 +1588,34 @@
                 }
             });
 
+            // Function to display a specific benefit detail and scroll to it
+            const showBenefitDetailAndScroll = (targetId) => {
+                const detailDivId = `detail-${targetId}`;
+                
+                // Hide all detail containers first
+                benefitDetailContainers.forEach(div => {
+                    div.classList.add('hidden');
+                    div.classList.remove('visible');
+                });
+
+                // Show the target detail div immediately
+                const targetDetailDiv = document.getElementById(detailDivId);
+                if (targetDetailDiv) {
+                    targetDetailDiv.classList.remove('hidden');
+                    targetDetailDiv.classList.add('visible');
+                    // Scroll to the newly visible detail div
+                    targetDetailDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            };
+
             submenuLinks.forEach(link => {
                 link.addEventListener('click', (event) => {
                     event.preventDefault(); 
-                    const targetId = link.dataset.targetId;
-
+                    const targetId = event.target.dataset.targetId; // e.g., "Anfanger"
+                    
                     menuOverlay.classList.remove('active');
                     document.body.style.overflow = '';
-
-                    const targetElement = document.getElementById(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    } else {
-                        document.getElementById('for-whom').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
+                    showBenefitDetailAndScroll(targetId);
                 });
             });
 
@@ -1491,10 +1666,19 @@
                     languageSwitcher.classList.remove('active');
                 }
             });
+
+            // --- Click listener for benefit cards to show details ---
+            document.querySelectorAll('.benefit-card').forEach(card => {
+                card.addEventListener('click', (event) => {
+                    const cardId = card.id; // e.g., "Anfanger"
+                    showBenefitDetailAndScroll(cardId);
+                });
+            });
         });
     </script>
 </body>
 </html>
+
 
 
 
